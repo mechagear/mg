@@ -15,7 +15,7 @@ include_once realpath(APPLICATION_PATH . '/../library') . '/Pimple/Pimple.php';
 /** Zend_Application */
 require_once 'Zend/Application.php';
 require_once 'Zend/Config/Ini.php';
-require_once 'Zend/Config/Xml.php';
+require_once 'Zend/Config/Xml.php'; 
 
 /* ============================== APP INIT ================================= */
 $sDomain = $_SERVER['HTTP_HOST'];
