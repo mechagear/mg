@@ -1,0 +1,7 @@
+<ul class="parsley-error-list _validate-errors" id="<?=$this->sId?>Errors">
+    <?php if ( !empty($this->sField) && !empty($this->aErrors[$this->sField])) { ?>
+    <?php foreach ($this->aErrors[$this->sField] as $sError) { ?>
+    <li><?=$sError?></li>
+    <?php } ?>
+    <?php } ?>
+</ul>

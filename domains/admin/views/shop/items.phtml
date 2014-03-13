@@ -1,0 +1,90 @@
+<div class="m-b-md">
+    <h3 class="m-b-none">Товары в категории &laquo;<?php echo $this->oCategory->name ?>&raquo;</h3>
+</div>
+<section class="panel panel-default">
+    <header class="panel-heading">
+      Товары
+    </header>
+    <div class="row text-sm wrapper">
+        <div class="col-sm-5 m-b-xs">
+            <a href="<?php echo $this->url(array('iCategoryId' => $this->oCategory->id_category, 'iItemId' => 0), 'shop-categories-items-edit');?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i></a>        
+        </div>
+        <div class="col-sm-4 m-b-xs"></div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="text" class="input-sm form-control" placeholder="Поиск">
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Искать</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped b-t b-light text-sm">
+            <thead>
+                <tr>
+                    <th width="20"><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th class="th-sortable" data-toggle="class">Название
+                        <span class="th-sort">
+                            <i class="fa fa-sort-down text"></i>
+                            <i class="fa fa-sort-up text-active"></i>
+                            <i class="fa fa-sort"></i>
+                        </span>
+                    </th>
+                    <th>Артикул</th>
+                    <th>URL</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->oCategory->id_category > 0) { ?>
+                <tr>
+                    <td><i class="fa fa-reply"></i></td>
+                    <td colspan="6"><a href="<?php echo $this->url(array('iShopId' => $this->oCategory->id_shop, 'iCategoryId' => $this->oCategory->id_parent, 'iPage' => 1,), 'shop-categories-list') ?>"><b>..</b></a></td>
+                </tr>
+                <?php } ?>
+                <?php if ($this->oItems->count() > 0) { ?>
+                <?php foreach ($this->oItems->getCurrentItems() as $oItem) { ?>
+                <tr>
+                    <td>
+                        <?php if ($oItem->cross_flag) { ?>
+                        <i class="fa fa-random" title="Кросс-товар"></i>
+                        <?php } else { ?>
+                        <input type="checkbox" name="item_selected[]" value="2">
+                        <?php } ?>
+                    </td>
+                    <td><?php echo $oItem->id_item;?></td>
+                    <td><b><?php echo $oItem->name?></b></td>
+                    <td><?php echo $oItem->marking?></td>
+                    <td><?php echo $oItem->url;?></td>
+                    <td><?php echo $this->aStatuses[$oItem->id_status]->name?></td>
+                    <td>
+                        <a href="<?php echo $this->url(array('iCategoryId' => $oItem->id_category, 'iItemId' => $oItem->id_item), 'shop-categories-items-edit');?>" title="Редактировать"><i class="fa fa-edit"></i></a> 
+                        <a href="#" title="Удалить"><i class="fa fa-trash-o"></i> </a>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php } else { ?>
+                <tr>
+                    <td colspan="7">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i> <b>Нет ни одного товара</b>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <footer class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 hidden-xs"></div>
+            <div class="col-sm-4 text-center"></div>
+            <div class="col-sm-4 text-right text-center-xs">
+                <?php echo $this->paginationControl($this->oItems, 'Sliding', 'partials/pagination.phtml');?>
+            </div>
+        </div>
+    </footer>
+</section>

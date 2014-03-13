@@ -1,0 +1,17 @@
+<div class="">
+    <h2>Сайтама пизнес, пизнес, пизнес!</h2>
+    <h4><?php echo $this->message ?></h4>
+    <img src="/img/err/dzhamshut.jpg" width="250" />
+    <?php if ('development' == $this->env): ?>
+    <h3>Exception information:</h3>
+    <p>
+        <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+    </p>
+
+    <h3>Stack trace:</h3>
+    <pre><?php echo $this->exception->getTraceAsString() ?></pre>
+
+    <h3>Request Parameters:</h3>
+    <pre><?php echo var_export($this->request->getParams(), 1) ?></pre>
+    <?php endif ?>
+</div>

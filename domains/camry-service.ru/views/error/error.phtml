@@ -1,0 +1,28 @@
+<section>
+    <div class="page-info-1">
+        <div class="container">
+            <h3>Ошибка</h3> 
+        </div>
+    </div>
+    <div class="container">
+        <div class="row spacer100"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="center"><?php echo $this->message ?></h2>
+                <?php if (true && 'development' == $this->env): ?>
+                <h3>Exception information:</h3>
+                <p>
+                    <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+                </p>
+
+                <h3>Stack trace:</h3>
+                <pre><?php echo $this->exception->getTraceAsString() ?></pre>
+
+                <h3>Request Parameters:</h3>
+                <pre><?php echo var_export($this->request->getParams(), 1) ?></pre>
+                <?php endif ?>
+            </div>
+        </div>
+        <div class="row spacer100"></div>
+    </div>        
+</section>

@@ -1,0 +1,13 @@
+<?php echo $this->doctype() ?>
+<html class="not-ie">
+    <head>
+        <?php echo $this->partial('partials/head.phtml')?>
+    </head>
+    <body>
+        <?php echo $this->partial('partials/header.phtml')?>
+        <?php echo $this->partial('partials/nav.phtml')?>
+        <?php echo $this->navigation()->breadcrumbs()->setPartial('partials/breadcrumbs.phtml')?>
+        <?php echo $this->layout()->content ?>
+        <?php echo $this->partial('partials/footer.phtml')?>
+    </body>
+</html>

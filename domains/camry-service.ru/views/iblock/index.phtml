@@ -1,0 +1,26 @@
+<section>
+    <div class="page-info-1">
+        <div class="container">
+            <h3><?php echo $this->oIblock->name ?></h3> 
+        </div>
+    </div>
+    <div class="container">
+        <?php foreach ($this->oElements as $iKey => $oElement) { ?>
+        <?php if ( 0 == (($iKey+1) % 3) ) { ?>
+        <div class="row">
+        <?php } ?>
+            <div class="col-md-4">
+                <div class="services-box">
+                    <div class="services-icon">
+                        <i class="icon-gear animated" data-type="rotateIn"></i> <!-- services icon -->
+                    </div>
+                    <a href="<?php echo $this->url(array('sCategoryUrl' => Mg_Base_Helper_IblockCategory::getIblockCategory($oElement->id_category)->url, 'sElementUrl' => $oElement->url,), $this->sRootRoute . '-element') ?>"><h4><?php echo $oElement->name ?></h4></a>
+                    <p><?php echo $oElement->short_text ?></p>
+                </div>
+            </div>
+        <?php if ( 0 == (($iKey+1) % 3) ) { ?>
+        </div>
+        <?php } ?>
+        <?php } ?>
+    </div>
+</section>

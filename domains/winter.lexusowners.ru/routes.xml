@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<routes>
+    <index type="Zend_Controller_Router_Route_Hostname">
+        <route>winter.lexusowners.ru</route>
+        <chains>
+            <default>
+                <defaults controller="index" action="index" />
+            </default>
+            <!-- static pages -->
+            <pages type="Zend_Controller_Router_Route_Regex">
+                <route>([-_/0-9a-zA-Z]+)</route>
+                <reverse>%s</reverse>
+                <defaults controller="page" action="page" />
+                <map> 
+                    <sPageUrl>1</sPageUrl>
+                </map>
+            </pages>
+        </chains>
+    </index>
+</routes>

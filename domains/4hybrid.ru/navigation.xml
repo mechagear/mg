@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<nav>
+    <index>
+        <label>Главная</label>
+        <order>-100</order>
+        <controller>index</controller>
+        <action>index</action>
+        <route>index-default</route>
+        <pages>
+            <cabinet>
+                <label>Личный кабинет</label>
+                <controller>cabinet</controller>
+                <action>index</action>
+                <route>index-cabinet-default</route>
+                <pages>
+                    <profile>
+                        <label>Профиль</label>
+                        <controller>cabinet</controller>
+                        <action>profile</action>
+                        <route>index-cabinet-profile</route>
+                    </profile>
+                    <cars>
+                        <label>Мои машины</label>
+                        <controller>cabinet</controller>
+                        <action>cars</action>
+                        <route>index-cabinet-cars-default</route>
+                        <pages>
+                            <edit>
+                                <label>Редактирование</label>
+                                <controller>cabinet</controller>
+                                <action>usercaredit</action>
+                            </edit>
+                        </pages>
+                    </cars>
+                </pages>
+            </cabinet>
+            <news>
+                <label>Новости</label>
+                <controller>news</controller>
+                <action>index</action>
+                <route>index-news-default</route>
+            </news>
+
+
+
+
+	    <cp>
+		<label>ЦУП</label>
+		<controller>admin</controller>
+		<action>index</action>
+		<route>index-cp-default</route>
+		<pages>
+		    <cities>
+			<label>Города</label>
+			<controller>admin</controller>
+			<action>cities</action>
+			<route>index-cp-cities-default</route>
+		    </cities>
+		    <cars>
+			<label>Автомобили</label>
+			<controller>admin</controller>
+			<action>cars</action>
+			<route>index-cp-cars-default</route>
+			<pages>
+			    <models>
+				<label>Модели</label>
+				<controller>admin</controller>
+				<action>carmodels</action>
+				<route>index-cp-cars-models</route>
+				<pages>
+				    <submodels>
+					<label>Модификации</label>
+					<controller>admin</controller>
+					<action>carsubmodels</action>
+					<route>index-cp-cars-submodels</route>
+				    </submodels>
+				</pages>
+			    </models>
+			</pages>
+		    </cars>
+		</pages>
+	    </cp>
+        </pages>
+    </index>
+</nav>

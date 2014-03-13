@@ -1,0 +1,12 @@
+<?php if (!empty($this->pages)) { ?>
+<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+<?php foreach ($this->pages as $iIndex => $oPage) { ?>
+    <?php //var_dump($oPage) ?>
+    <?php if ($oPage->isActive()) { ?>
+    <li class="active"><?php echo $oPage->getLabel(); ?></li>
+    <?php } else { ?>
+    <li><a href="<?php echo $oPage->getHref(); ?>"><?php echo ($iIndex == 0)?'<i class="fa fa-rocket"></i> ':''?><?php echo $oPage->getLabel(); ?></a></li>
+    <?php } ?>
+<?php } ?>
+</ul>
+<?php } ?>

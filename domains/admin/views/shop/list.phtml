@@ -1,0 +1,68 @@
+<div class="m-b-md">
+    <h3 class="m-b-none">Магазины</h3>
+</div>
+
+<section class="panel panel-default">
+    <header class="panel-heading">
+      Магазины
+    </header>
+    <div class="row text-sm wrapper">
+        <div class="col-sm-5 m-b-xs">
+            <a href="<?php echo $this->url(array('iShopId' => 0,), 'shop-edit')?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i></a>        
+        </div>
+        <div class="col-sm-4 m-b-xs"></div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="text" class="input-sm form-control" placeholder="Поиск">
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Искать</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped b-t b-light text-sm">
+            <thead>
+                <tr>
+                    <th width="20"><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th class="th-sortable" data-toggle="class">Название
+                        <span class="th-sort">
+                            <i class="fa fa-sort-down text"></i>
+                            <i class="fa fa-sort-up text-active"></i>
+                            <i class="fa fa-sort"></i>
+                        </span>
+                    </th>
+                    <th>Код</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->oShops->count() > 0) { ?>
+                <?php foreach ($this->oShops->getCurrentItems() as $oShop) { ?>
+                <tr>
+                    <td><input type="checkbox" name="shop_selected[]" value="2"></td>
+                    <td><?php echo $oShop->id_shop;?></td>
+                    <td><a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop, 'iCategoryId'=>0, 'iPage'=>1,), 'shop-categories-list');?>"><?php echo $oShop->name?></a></td>
+                    <td><?php echo $oShop->code;?></td>
+                    <td>
+                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-properties-list')?>" title="Характеристики"><i class="fa fa-list-alt"></i></a> 
+                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-measures-list')?>" title="Ед. измерения"><i class="fa fa-arrows-alt"></i></a> 
+                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-edit')?>" title="Редактировать"><i class="fa fa-edit"></i></a> 
+                        <a href="#" title="Удалить"> <i class="fa fa-trash-o"></i> </a>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php } else { ?>
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i> <b>Нет ни одного магазина</b>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</section>

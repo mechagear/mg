@@ -1,0 +1,77 @@
+<div class="m-b-md">
+    <h3 class="m-b-none">Категории инфоблока</h3>
+</div>
+
+<section class="panel panel-default">
+    <header class="panel-heading">
+      Категории инфоблока
+    </header>
+    <div class="row text-sm wrapper">
+        <div class="col-sm-5 m-b-xs">
+            <a href="<?php //echo $this->url(array('iElementId' => 0, 'iCategoryId' => intval($this->oCategory->id_category),), 'iblock-editelement')?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i> Новая категория</a>
+        </div>
+        <div class="col-sm-4 m-b-xs"></div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="text" class="input-sm form-control" placeholder="Поиск">
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Искать</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped b-t b-light text-sm">
+            <thead>
+                <tr>
+                    <th width="20"><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Элементы</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->oCategory->id_category > 0){ ?>
+                <tr>
+                    <td></td>
+                    <td colspan="5"><a href="<?php echo $this->url(array('iIblockId' => $this->iIblockId, 'iCategoryId' => $this->oCategory->id_parent,), 'iblock-category');?>"><b>..</b></a></td>
+                </tr>
+                <?php }?>
+                <?php if ($this->oCategories->count() > 0) { ?>
+                <?php foreach ($this->oCategories->getCurrentItems() as $oCategory) { ?>
+                <tr>
+                    <td><i class="icon icon-folder-close"></i></td>
+                    <td><?=$oCategory->id_category?></td>
+                    <td><a href="<?php echo $this->url(array('iIblockId' => $this->iIblockId, 'iCategoryId' => $oCategory->id_category,), 'iblock-category');?>"><b><?php echo $oCategory->name;?></b></a></td>
+                    <td><a href="<?=$this->url(array('iIblockId' => $this->iIblockId, 'iCategoryId' => $oCategory->id_category,), 'iblock-elements')?>"><i class="fa fa-bars"></i> (<?=  Mg_Base_Helper_IblockElement::getCountByCategory($oCategory->id_category)?>)</a></td>
+                    <td>
+                        <a href="#" title="Редактировать"><i class="fa fa-pencil"></i></a>
+                        <a href="#" title="Удалить"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                    <td></td>
+                </tr>
+                <?php } ?>
+                <?php }else{ ?>
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i> <b>Нет ни одной категории</b>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <footer class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 hidden-xs"></div>
+            <div class="col-sm-4 text-center"></div>
+            <div class="col-sm-4 text-right text-center-xs">
+                <?php echo $this->paginationControl($this->oElements, 'Sliding', 'partials/pagination.phtml');?>
+            </div>
+        </div>
+    </footer>
+</section>

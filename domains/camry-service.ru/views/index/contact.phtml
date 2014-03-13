@@ -1,0 +1,25 @@
+<section>
+    <div class="page-info-1">
+        <div class="container">
+            <h3>Контакты</h3> 
+        </div>
+    </div>
+    <div class="container">     
+        <div class="row">
+            <div class="col-md-12" style="font-weight: bold;">
+                <i class="icon-phone" style="font-size: 150%;"></i> <a href="callto:74959698114" style="font-size: 150%;">(495) 969 81 14</a><br/>
+                <i class="icon-building"></i> Москва, 3-й Угрешский проезд, дом 6<br/>
+                Если вы едете со стороны Угрешской улицы, то въезд будет с правой стороны, если со стороны Южнопортовой улицы, то с левой.<br/>
+                <i class="icon-time"></i> Мы работаем с 10 до 20 <span style="color: red;">БЕЗ ВЫХОДНЫХ</span>.
+            </div>
+        </div>
+        <div class="row spacer20"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <iframe id="google-map" src="https://maps.google.ru/maps/?f=q&source=s_q&hl=ru&geocode=&q=Россия,+город+Москва,+Москва,+3-й+Угрешский+проезд,+6&aq=&sll=55.712903,37.69929&sspn=0.002502,0.008256&vpsrc=6&ie=UTF8&hq=&hnear=3-й+Угрешский+пр.,+6,+Москва,+город+Москва,+Россия&ll=55.713384,37.699687&spn=0.002502,0.008256&t=m&z=18&iwloc=A&output=embed"></iframe>
+            </div>  
+        </div>
+       <div class="row spacer20"></div>
+    </div>
+    <?php echo $this->partial('partials/feedback.phtml', array('aCars' => $this->aCars))?>
+</section>

@@ -1,0 +1,26 @@
+<div class="container aside-xxl">
+    <a class="navbar-brand block" href="/"><img src="/img/mechagear.png" /></a>
+    <section class="panel panel-default bg-white m-t-lg">
+        <header class="panel-heading text-center">
+            <strong>Авторизация</strong>
+        </header>
+        <form class="panel-body wrapper-lg" action="<?php echo $this->url(array(), 'auth')?>" method="POST">
+            <input type="hidden" name="backUrl" value="<?php echo (!empty($_POST['backUrl']))? $_POST['backUrl']:'/'?>" />
+            <div class="form-group">
+                <label class="control-label">Email</label>
+                <input type="email" name="authEmail" id="authEmail" placeholder="my@email.ru" class="form-control input-lg">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Пароль</label>
+                <input type="password" name="authPassword" id="authPassword" placeholder="Пароль" class="form-control input-lg">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="authRemember" name="authRemember" checked="checked"> Запомните меня
+                </label>
+            </div>
+            <a href="#" class="pull-right m-t-xs"><small>Забыли пароль?</small></a>
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    </section>
+</div>

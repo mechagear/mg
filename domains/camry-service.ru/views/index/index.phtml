@@ -1,0 +1,97 @@
+<section>
+    <div id="top" class="parallax" style="background-image: url(<?=PUBLIC_FILES_PATH?>/img/parallax/camry-5.jpg); background-size: 100% auto; background-origin: content-box;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="parallax-text-container-3">
+                        <div class="parallax-text-item">
+                            <h1>Техцентр Toyota</h1>
+                            <h3>Запчасти и сервис в лучшем виде</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="big-unit-box">
+        <div class="container">
+            <div class="big-unit-box-inside">
+                <div class="row">
+                    <div class="col-md-12">           
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="content-component-2">
+                                    <h2 class="color-two">4 причины</h2>
+                                    <h4 class="color-two">быть нашим клиентом</h4>
+                                    <p class="color-two">
+                                    К вашим услугам  - профессиональные автомеханики с большим опытом работы с автомобилями марок Toyota и Lexus и оборудование, не уступающее официальным сервисным центрам.<br />
+                                    Мы гарантируем высокое качество выполненных нами работ и индивидуальное отношение к каждому клиенту.
+                                    </p>
+                                    <a href="#feedback-form" class="btn btn-invert" type="button">ЗАПИСАТЬСЯ</a>
+                                </div>  
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="services-shortcode">
+                                            <div class="services-icon-1"><i class="icon-gear"></i></div>
+                                            <div class="services-text">
+                                                <h5 class="color-two">
+                                                    <a href="#">Обслуживание</a></h5>
+                                                    <p>
+                                                        Мы обслуживаем автомобили клиентов в соответствии со строгими требованиями Toyota Motor Corporation.
+                                                    </p>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="services-shortcode">
+                                            <div class="services-icon-1"><i class="icon-truck"></i></div>
+                                            <div class="services-text">
+                                                <h5 class="color-two">
+                                                    <a href="#">Запчасти</a></h5>
+                                                    <p>
+                                                        Оригинальные и неоригинальные запчасти всегда в наличии!
+                                                    </p>
+                                            </div> 
+                                        </div>
+                                    </div>        
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="services-shortcode">
+                                            <div class="services-icon-1"><i class="icon-wrench"></i></div>
+                                            <div class="services-text">
+                                                <h5 class="color-two">
+                                                    <a href="#">Ремонт</a></h5>
+                                                    <p>
+                                                        Мы даём гарантию на ремонтные работы 6-12 месяцев без ограничения пробега!
+                                                    </p>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="services-shortcode">
+                                            <div class="services-icon-1"><i class="icon-gift"></i></div>
+                                            <div class="services-text">
+                                                <h5 class="color-two">
+                                                    <a href="<?php echo $this->url(array(),'action-default')?>">Подарки</a></h5>
+                                                    <p>
+                                                        Дарим подарки постоянным клиентам!<br />
+                                                        Начиная со второго посещения нашего техцентра вы получаете скидку постоянного клиента и подарок.
+                                                    </p>
+                                            </div> 
+                                        </div>
+                                    </div>        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <?php echo $this->partial('partials/feedback.phtml', array('aCars' => $this->aCars))?>
+    
+</section>

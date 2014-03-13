@@ -1,0 +1,12 @@
+<?php echo $this->doctype() ?>
+<html class="bg-dark">
+    <head>
+        <?php echo $this->partial('partials/head.phtml')?>
+    </head>
+    <body>
+        <section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+            <?php echo $this->layout()->content ?>
+        </section>
+        <?php echo $this->partial('partials/footer.phtml')?>
+    </body>
+</html>

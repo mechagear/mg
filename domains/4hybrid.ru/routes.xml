@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<routes>
+    <pages type="Zend_Controller_Router_Route">
+        <route>:sPageUrl</route>
+        <reverse>%s</reverse>
+        <defaults module="base" controller="page" action="page" />
+        <map> 
+            <sPageUrl>1</sPageUrl>
+        </map>
+    </pages>
+    <index type="Zend_Controller_Router_Route">
+        <route>/</route>
+        <defaults module="base" controller="index" action="index" />
+    </index>
+</routes>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domains>
+    <ADMIN>
+        <name>Админка</name>
+        <hosts>
+            <primary host="admin.servicearea.ru"></primary>
+        </hosts>
+        <dir>admin</dir>
+        <options>
+            <hidden>1</hidden>
+        </options>
+    </ADMIN>
+    <HYBRIDS>
+        <name>Ремонт гибридов</name>
+        <hosts>
+            <primary host="4hybrid.ru"></primary>
+        </hosts>
+        <dir>4hybrid.ru</dir>
+    </HYBRIDS>
+    <SERVICEAREA>
+        <name>Сервисная зона</name>
+        <hosts>
+            <primary host="servicearea.ru"></primary>
+            <secondary host="*.servicearea.ru"></secondary>
+        </hosts>
+        <dir>servicearea.ru</dir>
+        <options>
+            <redirect_secondary>0</redirect_secondary>
+        </options>
+    </SERVICEAREA>
+    <CAMRY>
+        <name>Камри-сервис</name>
+        <hosts>
+            <primary host="camry-service.ru"></primary>
+        </hosts>
+        <dir>camry-service.ru</dir>
+        <options>
+            <redirect_secondary>0</redirect_secondary>
+        </options>
+    </CAMRY>
+    
+</domains>

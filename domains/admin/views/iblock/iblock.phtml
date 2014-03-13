@@ -1,0 +1,64 @@
+<div class="m-b-md">
+    <h3 class="m-b-none">Инфоблоки</h3>
+</div>
+
+<section class="panel panel-default">
+    <div class="row text-sm wrapper">
+        <div class="col-sm-5 m-b-xs"></div>
+        <div class="col-sm-4 m-b-xs"></div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="text" class="input-sm form-control" placeholder="Поиск">
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Искать</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped b-t b-light text-sm">
+            <thead>
+                <tr>
+                    <th width="20"><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th class="th-sortable" data-toggle="class">Название</th>
+                    <th>Код</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->oIblocks->count() > 0) { ?>
+                <?php foreach ($this->oIblocks->getCurrentItems() as $oIblock) { ?>
+                <tr>
+                    <td><input type="checkbox" name="iblock_selected[]" value="2"></td>
+                    <td><?php echo $oIblock->id_iblock;?></td>
+                    <td><a href="<?php echo $this->url(array('iIblockId' => $oIblock->id_iblock,), 'iblock-category');?>"><?php echo $oIblock->name?></a></td>
+                    <td><?php echo $oIblock->code;?></td>
+                    <td>
+                        <a href="#" title="Редактировать"><i class="fa fa-edit"></i></a> 
+                        <a href="#" title="Удалить"> <i class="fa fa-trash-o"></i> </a>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php } else { ?>
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i> <b>Нет ни одного инфоблока</b>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <footer class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 hidden-xs"></div>
+            <div class="col-sm-4 text-center"></div>
+            <div class="col-sm-4 text-right text-center-xs">
+                <?php echo $this->paginationControl($this->oIblocks, 'Sliding', 'partials/pagination.phtml');?>
+            </div>
+        </div>
+    </footer>
+</section>

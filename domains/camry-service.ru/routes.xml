@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<routes>
+    <index type="Zend_Controller_Router_Route">
+        <route>/</route>
+        <defaults module="base" controller="index" action="index" />
+    </index>
+    <!-- static pages -->
+    <pages type="Zend_Controller_Router_Route">
+        <route>:sPageUrl</route>
+        <reverse>%s</reverse>
+        <defaults module="base" controller="page" action="page" />
+        <map> 
+            <sPageUrl>index</sPageUrl>
+        </map>
+    </pages>
+    <feedback type="Zend_Controller_Router_Route">
+        <route>feedback</route>
+        <defaults module="base" controller="index" action="feedback" />
+    </feedback>
+    <contact type="Zend_Controller_Router_Route">
+        <route>contact</route>
+        <defaults module="base" controller="index" action="contact" />
+    </contact>
+    <!-- iblock  -->
+    <services type="Zend_Controller_Router_Route">
+        <route>services</route>
+        <defaults sIblockCode="NEWS" />
+        <chains>
+            <default>
+                <defaults module="base" controller="iblock" action="index" />
+            </default>
+            <element type="Zend_Controller_Router_Route">
+                <route>:sCategoryUrl/:sElementUrl</route>
+                <defaults module="base" controller="iblock" action="element" />
+                <reqs sCategoryUrl="[0-9a-zA-Z-_]+" />
+            </element>
+        </chains>
+    </services>
+    <action type="Zend_Controller_Router_Route">
+        <route>action</route>
+        <defaults sIblockCode="NEWS" />
+        <chains>
+            <default>
+                <defaults module="base" controller="iblock" action="index" />
+            </default>
+            <element type="Zend_Controller_Router_Route">
+                <route>:sCategoryUrl/:sElementUrl</route>
+                <defaults module="base" controller="iblock" action="element" />
+                <reqs sCategoryUrl="[0-9a-zA-Z-_]+" />
+            </element>
+        </chains>
+    </action>
+</routes>

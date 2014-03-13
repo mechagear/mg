@@ -1,0 +1,76 @@
+<div class="m-b-md">
+    <h3 class="m-b-none">Ед. измерения магазина &laquo;<?php echo $this->oShop->name ?>&raquo;</h3>
+</div>
+<section class="panel panel-default">
+    <header class="panel-heading">
+      Единицы измерения
+    </header>
+    <div class="row text-sm wrapper">
+        <div class="col-sm-5 m-b-xs">
+            <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop, 'iMeasureId' => 0), 'shop-categories-measures-edit');?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i></a>
+        </div>
+        <div class="col-sm-4 m-b-xs"></div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="text" class="input-sm form-control" placeholder="Поиск">
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Искать</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped b-t b-light text-sm">
+            <thead>
+                <tr>
+                    <th width="20"><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th class="th-sortable" data-toggle="class">Название
+                        <span class="th-sort">
+                            <i class="fa fa-sort-down text"></i>
+                            <i class="fa fa-sort-up text-active"></i>
+                            <i class="fa fa-sort"></i>
+                        </span>
+                    </th>
+                    <th>Кратко</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->oShopMeasures->count() > 0) { ?>
+                <?php foreach ($this->oShopMeasures->getCurrentItems() as $oMeasure) { ?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="measure_selected[]" value="2">
+                    </td>
+                    <td><?php echo $oMeasure->id_measure;?></td>
+                    <td><b><?php echo $oMeasure->name_full?></b></td>
+                    <td><?php echo $oMeasure->name_short?></td>
+                    <td>
+                        <a href="<?php echo $this->url(array('iShopId' => $oMeasure->id_shop, 'iMeasureId' => $oMeasure->id_measure), 'shop-categories-measures-edit');?>" title="Редактировать"><i class="fa fa-edit"></i></a> 
+                        <a href="#" title="Удалить"><i class="fa fa-trash-o"></i> </a>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php } else { ?>
+                <tr>
+                    <td colspan="7">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i> <b>Нет ни одной единицы измерения</b>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <footer class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 hidden-xs"></div>
+            <div class="col-sm-4 text-center"></div>
+            <div class="col-sm-4 text-right text-center-xs">
+                <?php echo $this->paginationControl($this->oShopMeasures, 'Sliding', 'partials/pagination.phtml');?>
+            </div>
+        </div>
+    </footer>
+</section>

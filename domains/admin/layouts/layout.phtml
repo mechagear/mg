@@ -1,0 +1,29 @@
+<?php echo $this->doctype() ?>
+<html class="app">
+    <head>
+        <?php echo $this->partial('partials/head.phtml')?>
+    </head>
+    <body>
+        <section class="vbox">
+        <?php echo $this->partial('partials/header.phtml')?>
+            <section>
+                <section class="hbox stretch">
+                <?php echo $this->partial('partials/nav.phtml')?>
+                    <section id="content">
+                        <section class="vbox">
+                            <section class="scrollable padder">
+                            <?php echo $this->navigation()->breadcrumbs()->setPartial('partials/breadcrumbs.phtml')?>
+                            <?php echo $this->layout()->content ?>
+                            </section>
+                        </section>
+                        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+                    </section>
+                    <aside class="bg-light lter b-l aside-md hide" id="notes">
+                        <div class="wrapper">Уведомления</div>
+                    </aside>
+                </section>
+            </section>
+        </section>
+        <?php echo $this->partial('partials/footer.phtml')?>
+    </body>
+</html>

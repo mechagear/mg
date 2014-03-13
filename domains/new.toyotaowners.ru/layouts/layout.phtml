@@ -1,0 +1,22 @@
+<?php echo $this->doctype() ?>
+<html lang="ru">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <?php echo $this->headMeta() ?>
+        <?php echo $this->headLink() ?>
+        <title>TOYOTAOWNERS.RU</title> 
+        <?php echo $this->headScript() ?>
+        <script type="text/javascript" src="/js/respond.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <?php //echo $this->partial('/partials/header.phtml')?>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-12">
+                    <?php echo $this->layout()->content ?>
+                </div>
+            </div>
+            <?php //echo $this->partial('/partials/footer.phtml')?>
+        </div>
+    </body>
+</html>

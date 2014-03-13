@@ -1,0 +1,161 @@
+<script type="text/javascript" src="/js/validate.js"></script>
+<script>
+$(document).ready(function(){
+    $('#findercategoryCross').on('click', '._finder-item', function(event){
+        event.preventDefault();
+        var item = $(this).data('item');
+        
+        // Dont allow to add same items
+        // Preventing simple circular linking 
+        if ( <?=intval($this->oCategory->id_parent)?> != item.id_category && <?=intval($this->oCategory->id_category)?> != item.id_category && $('._category-cross-unlink[data-item-id=' + item.id_category + ']').length <= 0 && $('._category-cross-link[data-item-id=' + item.id_category + ']').length <= 0) {
+            var template = $('#categoryCrossTemplate').find('._category-cross-item').first().clone();
+            template.find('._category-cross-input').val(item.id_category);
+            template.find('._category-cross-id').text(item.id_category);
+            template.find('._category-cross-name').text(item.name);
+            template.find('._category-cross-unlink').attr('data-item-id', item.id_category);
+            template.removeAttr('id');
+            $('#categoryCross').append(template);
+            template.show();
+        } else {
+            $(this).addClass('bg-warning');
+        }
+    });
+    // mark as deleted
+    $('#categoryCross').on('click', '._category-cross-unlink', function(event){
+        event.preventDefault();
+        var line = $(this).parents('._category-cross-item');
+        //line.addClass('danger');
+        line.find('._category-cross-input').val('');
+        line.find('._category-cross-unlink').children('i').removeClass('fa-unlink').addClass('fa-link');
+        line.find('._category-cross-unlink').removeClass('_category-cross-unlink').addClass('_category-cross-link').addClass('badge bg-danger');
+    });
+    // cancel deleting
+    $('#categoryCross').on('click', '._category-cross-link', function(event){
+        event.preventDefault();
+        var line = $(this).parents('._category-cross-item');
+        var id = $(this).data('item-id');
+        //line.removeClass('danger');
+        line.find('._category-cross-input').val(id);
+        line.find('._category-cross-link').children('i').removeClass('fa-link').addClass('fa-unlink');
+        line.find('._category-cross-link').removeClass('_category-cross-link').addClass('_category-cross-unlink').removeClass('badge bg-danger');
+    });
+});    
+</script>
+<div class="m-b-md">
+    <h3 class="m-b-none"><?php echo (strlen($this->oCategory->name) > 0)? $this->oCategory->name : 'Новая категория' ?></h3> 
+</div>
+<form role="form" id="category-edit-form" class="form-horizontal" method="POST" action="<?php echo $this->url();?>">
+    <section class="panel panel-default">
+        <header class="panel-heading bg-light">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#tab-category" data-toggle="tab">Категория</a></li>
+                <li><a href="#tab-cross" data-toggle="tab">Кросс-категории</a></li>
+                <li><a href="#tab-seo" data-toggle="tab">SEO</a></li>
+            </ul>
+        </header>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-category">
+                    <div class="form-group">
+                        <label for="categoryIdParent" class="col-lg-1 control-label">Категория</label>
+                        <div class="col-lg-11">
+                            <select class="form-control" name="categoryIdParent" id="categoryIdParent">
+                                <option value="0">&mdash;</option>
+                                <?php foreach ($this->aCategories as $aCategory) { ?>
+                                <option value="<?php echo $aCategory['id_category'];?>" <?php echo ($aCategory['id_category'] != $this->oCategory->id_parent)? (($aCategory['id_category'] != $this->oParent->id_category) ? '' : 'selected="selected"') : 'selected="selected"';?>><?php echo str_repeat('&mdash;', $aCategory['level']);?> <?php echo $aCategory['name'];?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryName" class="col-lg-1 control-label">Название</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Название элемента" value="<?php echo $this->oCategory->name;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryUrl" class="col-lg-1 control-label">URL</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="categoryUrl" id="categoryUrl" placeholder="URL" value="<?php echo $this->oCategory->url;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryIdStatus" class="col-lg-1 control-label">Статус</label>
+                        <div class="col-lg-11">
+                            <select class="form-control" name="categoryIdStatus" id="categoryIdStatus">
+                                <?php foreach ($this->aStatuses as $oStatus) { ?>
+                                <option value="<?php echo $oStatus->id_status;?>" <?php echo ($oStatus->id_status == $this->oCategory->id_status)?'selected="selected"':'';?>><?php echo $oStatus->name;?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-cross">
+                    <?php echo $this->partial('shop/partials/finder.phtml', array('postfix'=>'categoryCross', 'url'=>$this->url(array(), 'shop-ajax-find-category'), 'item_id'=>'id_category', 'item_icon'=>'fa-link', 'params'=>array('id_shop'=>$this->oCategory->id_shop)))?>
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <div class="table-responsive">
+                        <table class="table table-striped b-t b-light text-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Название</th>
+                                    <th width="25"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryCross">
+                            <?php if ($this->oBndCategories && $this->oBndCategories->count() > 0) { ?>
+                            <?php foreach ($this->oBndCategories->getCurrentItems() as $oBndCategory) { ?>
+                                <tr class="_category-cross-item">
+                                    <td>
+                                        <input type="hidden" name="categoryCrosses[]" class="_category-cross-input" value="<?php echo $oBndCategory->id_category;?>" /> 
+                                        <span class="_category-cross-id"><?php echo $oBndCategory->id_category;?></span>
+                                    </td>
+                                    <td class="_category-cross-name"><?php echo $oBndCategory->name;?></td>
+                                    <td><a href="#" class="pull-right _category-cross-unlink" data-item-id="<?php echo $oBndCategory->id_category;?>"><i class="fa fa-unlink"></i></a></td>
+                                </tr>
+                            <?php } ?>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-seo">
+                    <div class="form-group">
+                        <label for="categoryTitle" class="col-lg-1 control-label">Title</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="categoryTitle" id="categoryTitle" placeholder="Title" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryKeywords" class="col-lg-1 control-label">Keywords</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="categoryKeywords" id="categoryKeywords" placeholder="Keywords" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryDescription" class="col-lg-1 control-label">Description</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="categoryDescription" id="categoryDescription" placeholder="Description" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-success">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+<table id="categoryCrossTemplate" style="display: none;">
+<tr class="_category-cross-item">
+    <td>
+        <input type="hidden" name="categoryCrosses[]" class="_category-cross-input" value="" /> 
+        <span class="_category-cross-id"></span>
+    </td>
+    <td class="_category-cross-name"></td>
+    <td><a href="#" class="pull-right _category-cross-unlink" data-item-id=""><i class="fa fa-unlink"></i></a></td>
+</tr>
+</table>

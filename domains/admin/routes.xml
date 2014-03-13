@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<routes>
+    <!-- control panel -->
+    <index type="Zend_Controller_Router_Route_Static">
+        <route>/</route>
+        <defaults module="admin" controller="admin" action="index" />
+    </index>
+
+    <!-- auth and registration -->
+    <auth type="Zend_Controller_Router_Route">
+        <route>auth</route>
+        <defaults module="admin" controller="admin" action="auth" />
+    </auth>
+    <unauth type="Zend_Controller_Router_Route">
+        <route>unauth</route>
+        <defaults module="admin" controller="admin" action="unauth" />
+    </unauth>
+
+    <pages type="Zend_Controller_Router_Route">
+        <route>pages</route>
+        <chains>
+            <default>
+                <defaults module="admin" controller="page" action="pages" />
+            </default>
+            <list type="Zend_Controller_Router_Route">
+                <route>:iPage</route>
+                <defaults module="admin" controller="page" action="pages" iPage="1" />
+            </list>
+            <edit type="Zend_Controller_Router_Route">
+                <route>edit/:iPageId</route>
+                <defaults module="admin" controller="page" action="pageedit" />
+            </edit>
+        </chains>
+    </pages>
+
+    <iblock type="Zend_Controller_Router_Route_Static">
+        <route>iblock</route>
+        <chains>
+            <default>
+                <defaults module="admin" controller="iblock" action="iblock" />
+            </default>
+            <ajax type="Zend_Controller_Router_Route">
+                <route>ajax</route>
+                <chains>
+                    <element type="Zend_Controller_Router_Route">
+                        <route>element/:iElementId</route>
+                        <chains>
+                            <images type="Zend_Controller_Router_Route">
+                                <route>images</route>
+                                <defaults module="admin" controller="iblock" action="ajaxelementimages" />
+                            </images>
+                        </chains>
+                    </element>
+                </chains>
+            </ajax>
+            <list type="Zend_Controller_Router_Route">
+                <route>:iPage</route>
+                <defaults module="admin" controller="iblock" action="iblock" iPage="1" />
+            </list>
+            <category type="Zend_Controller_Router_Route">
+                <route>categories/:iIblockId/:iCategoryId/:iPage</route>
+                <defaults module="admin" controller="iblock" action="iblockcategory" iCategoryId="0" iPage="1" />
+                <reqs iIblockId="[0-9]+" iCategoryId="[0-9]+" iPage="[0-9]+"></reqs>
+            </category>
+            <elements type="Zend_Controller_Router_Route">
+                <route>elements/:iIblockId/:iCategoryId/:iPage</route>
+                <defaults module="admin" controller="iblock" action="iblockelements" iCategoryId="0" iPage="1" />
+                <reqs iIblockId="[0-9]+" iCategoryId="[0-9]+" iPage="[0-9]+"></reqs>
+            </elements>
+            <editelement type="Zend_Controller_Router_Route">
+                <route>elements/edit/:iCategoryId/:iElementId</route>
+                <defaults module="admin" controller="iblock" action="iblockelementedit" iElementId="0" />
+                <reqs iElementId="[0-9]+" iCategoryId="[0-9]+"></reqs>
+            </editelement>
+        </chains>
+    </iblock>
+
+    <cities type="Zend_Controller_Router_Route_Static">
+        <route>cities</route>
+        <chains>
+            <default>
+                <defaults module="admin" controller="admin" action="cities" />
+            </default>
+            <list type="Zend_Controller_Router_Route">
+                <route>:iPage</route>
+                <defaults module="admin" controller="admin" action="cities" iPage="1" />
+            </list>
+        </chains>
+    </cities>
+
+    <cars type="Zend_Controller_Router_Route_Static">
+        <route>cars</route>
+        <chains>
+            <default>
+                <defaults module="admin" controller="admin" action="cars" />
+            </default>
+            <list type="Zend_Controller_Router_Route">
+                <route>:iPage</route>
+                <defaults module="admin" controller="admin" action="cars" iPage="1" />
+            </list>
+            <models type="Zend_Controller_Router_Route">
+                <route>models/:iMakerId/:iPage</route>
+                <defaults module="admin" controller="admin" action="carmodels" iPage="1" />
+            </models>
+            <submodels type="Zend_Controller_Router_Route">
+                <route>submodels/:iModelId/:iPage</route>
+                <defaults module="admin" controller="admin" action="carsubmodels" iPage="1" />
+            </submodels>
+        </chains>
+    </cars>
+
+
+    <!--  SHOP -->
+    <shop type="Zend_Controller_Router_Route_Static">
+        <route>shop</route>
+        <chains>
+            <default>
+                <defaults module="admin" controller="shop" action="index" />
+            </default>
+            <ajax type="Zend_Controller_Router_Route">
+                <route>ajax</route>
+                <chains>
+                    <find type="Zend_Controller_Router_Route">
+                        <route>find</route>
+                        <chains>
+                            <category>
+                                <route>category</route>
+                                <defaults module="admin" controller="shop" action="ajaxcategoryfind"/>
+                            </category>
+                        </chains>
+                    </find>
+                </chains>
+            </ajax>
+            <list type="Zend_Controller_Router_Route">
+                <route>/</route>
+                <defaults module="admin" controller="shop" action="list" />
+            </list>
+            <edit type="Zend_Controller_Router_Route">
+                <route>edit/:iShopId</route>
+                <defaults module="admin" controller="shop" action="edit" iShopId="0" />
+                <reqs iShopId="[0-9]+"></reqs>
+            </edit>
+            <categories type="Zend_Controller_Router_Route">
+                <route>:iShopId</route>
+                <reqs iShopId="[0-9]+"></reqs>
+                <chains>
+                    <default>
+                        <defaults module="admin" controller="shop" action="category5" iCategoryId="0" iPage="1" />
+                    </default>
+                    <list type="Zend_Controller_Router_Route">
+                        <route>category/:iCategoryId/:iPage</route>
+                        <defaults module="admin" controller="shop" action="category" iCategoryId="0" iPage="1" />
+                        <reqs iShopId="[0-9]+" iCategoryId="[0-9]+"></reqs>
+                    </list>
+                    <edit type="Zend_Controller_Router_Route">
+                        <route>category/edit/:iParentId/:iCategoryId</route>
+                        <defaults module="admin" controller="shop" action="categoryedit" iCategoryId="0" iParentId="0" />
+                        <reqs iShopId="[0-9]+" iCategoryId="[0-9]+" iParentId="[0-9]+"></reqs>
+                    </edit>
+                    <items type="Zend_Controller_Router_Route">
+                        <route>category/:iCategoryId/items</route>
+                        <reqs iCategoryId="[0-9]+"></reqs>
+                        <chains>
+                            <default>
+                                <defaults module="admin" controller="shop" action="items" iPage="1" />
+                            </default>
+                            <list type="Zend_Controller_Router_Route">
+                                <route>:iPage</route>
+                                <defaults module="admin" controller="shop" action="items" iPage="1" />
+                            </list>
+                            <edit type="Zend_Controller_Router_Route">
+                                <route>edit/:iItemId</route>
+                                <defaults module="admin" controller="shop" action="itemedit" iItemId="0" />
+                                <reqs iItemId="[0-9]+"></reqs>
+                            </edit>
+                        </chains>
+                    </items>
+                    <properties type="Zend_Controller_Router_Route">
+                        <route>properties</route>
+                        <chains>
+                            <list type="Zend_Controller_Router_Route">
+                                <route>:iPage</route>
+                                <defaults module="admin" controller="shop" action="properties" iPage="1"></defaults>
+                                <reqs iShopId="[0-9]+"></reqs>
+                            </list>
+                            <edit type="Zend_Controller_Router_Route">
+                                <route>edit/:iPropertyId</route>
+                                <defaults module="admin" controller="shop" action="propertyedit"></defaults>
+                                <reqs iShopId="[0-9]+" iPropertyId="[0-9]+"></reqs>
+                            </edit>
+                        </chains>
+                    </properties>
+                    <measures type="Zend_Controller_Router_Route">
+                        <route>measures</route>
+                        <chains>
+                            <list type="Zend_Controller_Router_Route">
+                                <route>:iPage</route>
+                                <defaults module="admin" controller="shop" action="measures" iPage="1"></defaults>
+                                <reqs iShopId="[0-9]+"></reqs>
+                            </list>
+                            <edit type="Zend_Controller_Router_Route">
+                                <route>edit/:iMeasureId</route>
+                                <defaults module="admin" controller="shop" action="measureedit"></defaults>
+                                <reqs iShopId="[0-9]+" iMeasureId="[0-9]+"></reqs>
+                            </edit>
+                        </chains>
+                    </measures>
+                </chains>
+            </categories>
+        </chains>
+    </shop>
+    
+    <tools type="Zend_Controller_Router_Route_Static">
+        <route>tools</route>
+        <defaults controller="admin" action="tools" />
+        <chains>
+            <kladr_import type="Zend_Controller_Router_Route_Static">
+                <route>kladr/import</route>
+                <defaults module="admin" controller="admin" action="kladrimport" />
+            </kladr_import>
+            <kladr_import_block type="Zend_Controller_Router_Route_Static">
+                <route>kladr/import/block</route>
+                <defaults module="admin" controller="admin" action="kladrimportblock" />
+            </kladr_import_block>
+        </chains>
+    </tools>
+    
+    
+    <dev type="Zend_Controller_Router_Route">
+        <route>dev</route>
+        <defaults module="admin" controller="dev" action="index" />
+        <chains>
+            <default>
+                <defaults module="admin" controller="dev" action="index" />
+            </default>
+        </chains>
+    </dev>
+    
+    <validate type="Zend_Controller_Router_Route">
+        <route>validate</route>
+        <chains>
+            <field type="Zend_Controller_Router_Route">
+                <route>field</route>
+                <defaults module="admin" controller="validate" action="field"></defaults>
+            </field>
+        </chains>
+    </validate>
+</routes>

@@ -1,0 +1,50 @@
+<script type="text/javascript" src="/js/validate.js"></script>
+<div class="m-b-md">
+    <h3 class="m-b-none"><?php echo (strlen($this->oShop->name) > 0)? $this->oShop->name : 'Новый магазин' ?></h3> 
+</div>
+<form role="form" id="shop-edit-form" class="form-horizontal" method="POST" action="<?php echo $this->url();?>">
+    <section class="panel panel-default">
+        <header class="panel-heading bg-light">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#tab-shop" data-toggle="tab">Магазин</a></li>
+                <li><a href="#tab-seo" data-toggle="tab">SEO</a></li>
+            </ul>
+        </header>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-shop">
+                    <div class="form-group">
+                        <label for="shopName" class="col-lg-1 control-label">Название</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="shopName" id="shopName" placeholder="Название элемента" value="<?php echo $this->oShop->name;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopCode" class="col-lg-1 control-label">Код</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="shopCode" id="shopCode" placeholder="Код" value="<?php echo $this->oShop->code;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopIdStatus" class="col-lg-1 control-label">Статус</label>
+                        <div class="col-lg-11">
+                            <select class="form-control" name="shopIdStatus" id="shopIdStatus">
+                                <?php foreach ($this->aStatuses as $oStatus) { ?>
+                                <option value="<?php echo $oStatus->id_status;?>" <?php echo ($oStatus->id_status == $this->oShop->id_status)?'selected="selected"':'';?>><?php echo $oStatus->name;?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-seo">
+                    
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-1 col-lg-11">
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

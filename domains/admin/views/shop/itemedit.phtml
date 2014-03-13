@@ -1,0 +1,234 @@
+<script type="text/javascript" src="/js/validate.js"></script>
+<script>
+$(document).ready(function(){
+    $('#findercategoryCross').on('click', '._finder-item', function(event){
+        event.preventDefault();
+        var item = $(this).data('item');
+        console.log('555');
+        // Dont allow to add same items
+        // Preventing simple circular linking 
+        if ( $('._category-cross-unlink[data-item-id=' + item.id_category + ']').length <= 0 && $('._category-cross-link[data-item-id=' + item.id_category + ']').length <= 0 ) {
+            var template = $('#categoryCrossTemplate').find('._category-cross-item').first().clone();
+            template.find('._category-cross-input').val(item.id_category);
+            template.find('._category-cross-id').text(item.id_category);
+            template.find('._category-cross-name').text(item.name);
+            template.find('._category-cross-unlink').attr('data-item-id', item.id_category);
+            template.removeAttr('id');
+            $('#categoryCross').append(template);
+            template.show();
+        } else {
+            $(this).addClass('bg-warning');
+        }
+    });
+    // mark as deleted
+    $('#categoryCross').on('click', '._category-cross-unlink', function(event){
+        event.preventDefault();
+        var line = $(this).parents('._category-cross-item');
+        //line.addClass('danger');
+        line.find('._category-cross-input').val('');
+        line.find('._category-cross-unlink').children('i').removeClass('fa-unlink').addClass('fa-link');
+        line.find('._category-cross-unlink').removeClass('_category-cross-unlink').addClass('_category-cross-link').addClass('badge bg-danger');
+    });
+    // cancel deleting
+    $('#categoryCross').on('click', '._category-cross-link', function(event){
+        event.preventDefault();
+        var line = $(this).parents('._category-cross-item');
+        var id = $(this).data('item-id');
+        //line.removeClass('danger');
+        line.find('._category-cross-input').val(id);
+        line.find('._category-cross-link').children('i').removeClass('fa-link').addClass('fa-unlink');
+        line.find('._category-cross-link').removeClass('_category-cross-link').addClass('_category-cross-unlink').removeClass('badge bg-danger');
+    });
+    
+});    
+</script>
+<div class="m-b-md">
+    <h3 class="m-b-none">Товар &laquo;<?php echo (strlen($this->oItem->name) > 0)? $this->oItem->name : 'Новый товар' ?>&raquo;</h3> 
+</div>
+<form role="form" id="item-edit-form" class="form-horizontal" method="POST" enctype="multipart/form-data" action="<?php echo $this->url();?>">
+    <section class="panel panel-default">
+        <header class="panel-heading bg-light">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#tab-item" data-toggle="tab">Товар</a></li>
+                <li><a href="#tab-description" data-toggle="tab">Описание</a></li>
+                <li><a href="#tab-properties" data-toggle="tab">Характеристики</a></li>
+                <li><a href="#tab-images" data-toggle="tab">Изображения</a></li>
+                <li><a href="#tab-categories" data-toggle="tab">Кросс-категории</a></li>
+                <li><a href="#tab-seo" data-toggle="tab">SEO</a></li>
+            </ul>
+        </header>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-item">
+                    <div class="form-group">
+                        <label for="itemIdCategory" class="col-lg-1 control-label">Категория</label>
+                        <div class="col-lg-11">
+                            <select class="form-control" name="itemIdCategory" id="itemIdCategory">
+                                <option value="0">&mdash;</option>
+                                <?php foreach ($this->aCategories as $aCategory) { ?>
+                                <option value="<?php echo $aCategory['id_category'];?>" <?php echo ($aCategory['id_category'] != $this->oItem->id_category) ? ( ($aCategory['id_category'] != $this->oCategory->id_category) ? '' : 'selected="selected"') : 'selected="selected"';?>><?php echo str_repeat('&mdash;', $aCategory['level']);?> <?php echo $aCategory['name'];?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemName" class="col-lg-1 control-label">Название</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="itemName" id="itemName" placeholder="Название элемента" value="<?php echo $this->oItem->name;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemMarking" class="col-lg-1 control-label">Артикул</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="itemMarking" id="itemMarking" placeholder="Артикул" value="<?php echo $this->oItem->marking;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemUrl" class="col-lg-1 control-label">URL</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="itemUrl" id="itemUrl" placeholder="URL" value="<?php echo $this->oItem->url;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemIdStatus" class="col-lg-1 control-label">Статус</label>
+                        <div class="col-lg-11">
+                            <select class="form-control" name="itemIdStatus" id="itemIdStatus">
+                                <?php foreach ($this->aStatuses as $oStatus) { ?>
+                                <option value="<?php echo $oStatus->id_status;?>" <?php echo ($oStatus->id_status == $this->oItem->id_status)?'selected="selected"':'';?>><?php echo $oStatus->name;?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-description">
+                    <div class="form-group">
+                        <label for="itemShortText" class="col-lg-1 control-label">Короткое описание</label>
+                        <div class="col-lg-11">
+                            <!--<input type="hidden" name="itemShortText" id="itemShortText" value="" />-->
+                            <?php //echo $this->partial('partials/wysiwyg.phtml', array('id' => 'itemShortText', 'text' => $this->oShortText->text,)) ?>
+                            <textarea class="wysiwyg-redactor" name="itemShortText" id="itemShortText" style="width: auto; min-height: 600px;">
+                                <?=$this->oShortText->text?>
+                            </textarea>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label for="itemFullText" class="col-lg-1 control-label">Подробное описание</label>
+                        <div class="col-lg-11"> 
+                            <!--<input type="hidden" name="itemFullText" id="itemFullText" value="" />-->
+                            <?php //echo $this->partial('partials/wysiwyg.phtml', array('id' => 'itemFullText', 'text' => $this->oFullText->text,)) ?>
+                            <textarea class="wysiwyg-redactor" name="itemFullText" id="itemFullText" style="width: auto; min-height: 600px;">
+                                <?=$this->oFullText->text?>
+                            </textarea>
+                        </div> 
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-properties">
+                    dfjkdfjgjdf
+                </div>
+                <div class="tab-pane" id="tab-images">
+                    <?php if ($this->oItem->id_item > 0) { ?>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">Загрузить файл</label>
+                        <div class="col-lg-3">
+                            <input type="file" class="filestyle" name="itemImage[]" data-icon="true" data-classIcon="fa fa-folder-o" data-classButton="btn btn-default" data-classInput="form-control inline input-s" data-buttonText="Выберите файл" />
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="file" class="filestyle" name="itemImage[]" data-icon="true" data-classIcon="fa fa-folder-o" data-classButton="btn btn-default" data-classInput="form-control inline input-s" data-buttonText="Выберите файл" />
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="file" class="filestyle" name="itemImage[]" data-icon="true" data-classIcon="fa fa-folder-o" data-classButton="btn btn-default" data-classInput="form-control inline input-s" data-buttonText="Выберите файл" />
+                        </div>
+                    </div>
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <ul class="list-group gutter list-group-lg list-group-sp sortable">
+                    <?php foreach ($this->aImages as $aImage) { ?>
+                        <li class="list-group-item" draggable="true" style="display: block;">
+                            <span class="pull-right">
+                                <a href="#"><i class="fa fa-times icon-muted fa-fw"></i></a>                  
+                            </span>
+                            <span class="pull-left media-xs"><i class="fa fa-sort text-muted fa m-r-sm"></i> <?=$aImage['order']+1?></span>
+                            <div class="clear">
+                                <input type="hidden" name="itemImages[]" value="<?=$aImage['origin']?>" />
+                                <a href="/pub_img/<?=$aImage['origin']['url']?>" target="_blank"><img src="/pub_img/<?=$aImage['url']?>" /></a>
+                            </div>
+                        </li>
+                    <?php } ?>
+                    </ul>
+                    <?php } else { ?>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i> Сохраните товар, чтобы загрузить изображения
+                    </div>
+                    <?php } ?>
+                </div>
+                <div class="tab-pane" id="tab-categories">
+                    <?php echo $this->partial('shop/partials/finder.phtml', array('postfix'=>'categoryCross', 'url'=>$this->url(array(), 'shop-ajax-find-category'), 'item_id'=>'id_category', 'item_icon'=>'fa-link', 'params'=>array('id_shop'=>$this->oItem->id_shop)))?>
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <div class="table-responsive">
+                        <table class="table table-striped b-t b-light text-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Название</th>
+                                    <th width="25"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryCross">
+                            <?php if ($this->oBndCategories && $this->oBndCategories->count() > 0) { ?>
+                            <?php foreach ($this->oBndCategories->getCurrentItems() as $oBndCategory) { ?>
+                                <tr class="_category-cross-item">
+                                    <td>
+                                        <input type="hidden" name="categoryCrosses[]" class="_category-cross-input" value="<?php echo $oBndCategory->id_category;?>" /> 
+                                        <span class="_category-cross-id"><?php echo $oBndCategory->id_category;?></span>
+                                    </td>
+                                    <td class="_category-cross-name"><?php echo $oBndCategory->name;?></td>
+                                    <td><a href="#" class="pull-right _category-cross-unlink" data-item-id="<?php echo $oBndCategory->id_category;?>"><i class="fa fa-unlink"></i></a></td>
+                                </tr>
+                            <?php } ?>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-seo">
+                    <div class="form-group">
+                        <label for="itemTitle" class="col-lg-1 control-label">Title</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="itemTitle" id="itemTitle" placeholder="Title" value="<?php echo $this->oItem->title;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription" class="col-lg-1 control-label">Description</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="itemDescription" id="itemDescription" placeholder="Description" value="<?php echo $this->oItem->description;?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemKeywords" class="col-lg-1 control-label">Keywords</label>
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" name="itemKeywords" id="itemKeywords" placeholder="Keywords" value="<?php echo $this->oItem->keywords;?>" />
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Сохранить</button> 
+                    <button type="submit" name="return" value="1" class="btn btn-success"><i class="fa fa-reply"></i> Сохранить и вернуться</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+<table id="categoryCrossTemplate" style="display: none;">
+<tr class="_category-cross-item">
+    <td>
+        <input type="hidden" name="categoryCrosses[]" class="_category-cross-input" value="" /> 
+        <span class="_category-cross-id"></span>
+    </td>
+    <td class="_category-cross-name"></td>
+    <td><a href="#" class="pull-right _category-cross-unlink" data-item-id=""><i class="fa fa-unlink"></i></a></td>
+</tr>
+</table>
+
+<script type="text/javascript" src="/domains/admin/external/file-input/bootstrap-filestyle.min.js"></script>

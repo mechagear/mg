@@ -1,0 +1,69 @@
+<?php 
+/**
+ * Finder partial
+ * Waits for params:
+ * 1. [postfix] => unique id postfix
+ * 2. [url] => url to queue
+ * 3. [item_id] => item id field name
+ * 4. [item_icon] => item icon ???
+ * 5. [params] => fixed parameters to send to url
+ */
+?>
+<script>
+$(document).ready(function(){
+   $('#finderSearchDo<?=$this->postfix?>').click(function(){
+       var searchValue = $('#finderSearchInput<?=$this->postfix?>').val();
+       $('#finderResults<?=$this->postfix?>').empty();
+       if (searchValue.length <= 0) {
+           return false;
+       }
+       var aData = {
+           search: searchValue
+       };
+       <?php if ($this->params) { ?>
+       <?php foreach ($this->params as $k => $v) { ?>
+       aData.<?=$k?>='<?=$v?>';
+       <?php } ?>
+       <? } ?>
+       $.post(
+           '<?=$this->url?>',
+           aData,
+           function(data){
+               if (data.result.length > 0) {
+                    for (var i in data.result) {
+                        if (data.result[i].<?=$this->item_id?> > 0) {
+                            var template = $('#finderTemplate<?=$this->postfix?>').clone();
+                            template.data('item', data.result[i]);
+                            template.find('#finderItemId<?=$this->postfix?>').first().text(data.result[i].<?=$this->item_id?>).removeAttr('id');
+                            template.find('#finderItemName<?=$this->postfix?>').first().text(data.result[i].name).removeAttr('id');
+                            template.removeAttr('id');
+                            $('#finderResults<?=$this->postfix?>').append(template);
+                            template.show();
+                        }
+                    }
+               }
+           },
+           'json'
+       );
+   });
+});    
+</script>
+
+<section class="panel panel-default" id="finder<?=$this->postfix?>">
+    <header class="panel-heading">
+        <div class="input-group text-sm">
+            <input type="text" class="input-sm form-control" id="finderSearchInput<?=$this->postfix?>" placeholder="Поиск">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-sm btn-default" id="finderSearchDo<?=$this->postfix?>"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+    <div class="list-group no-radius alt" id="finderResults<?=$this->postfix?>"></div>
+</section>
+
+
+<a class="list-group-item _finder-item" href="#" id="finderTemplate<?=$this->postfix?>" style="display: none;">
+    <span class="label bg-light" id="finderItemId<?=$this->postfix?>"></span> 
+    <span id="finderItemName<?=$this->postfix?>"></span> 
+    <i class="fa <?=$this->item_icon?> pull-right"></i>
+</a>

@@ -1,0 +1,47 @@
+<div class="m-b-md">
+    <h3 class="m-b-none">Единица измерения &laquo;<?php echo (strlen($this->oMeasure->name_full) > 0)? $this->oMeasure->name_full : 'Новая единица измерения' ?>&raquo;</h3> 
+</div>
+<form role="form" id="measure-edit-form" class="form-horizontal" method="POST" action="<?php echo $this->url();?>">
+    <section class="panel panel-default">
+        <header class="panel-heading bg-light"></header>
+        <div class="panel-body">
+                <div class="form-group">
+                    <label for="measureNameFull" class="col-lg-1 control-label">Полное название</label>
+                    <div class="col-lg-11">
+                        <input type="text" class="form-control _validate" data-model="Mg_Shop_Model_Measure" data-name="name_full" data-id_measure="<?=$this->oMeasure->id_measure?>" name="measureNameFull" id="measureNameFull" placeholder="Название ед. измерения" value="<?php echo $this->oMeasure->name_full;?>" />
+                        <ul class="parsley-error-list _validate-errors" id="measureNameFullErrors"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="measureNameShort" class="col-lg-1 control-label">Краткое название</label>
+                    <div class="col-lg-11">
+                        <input type="text" class="form-control _validate" data-model="Mg_Shop_Model_Measure" data-name="name_short" data-id_measure="<?=$this->oMeasure->id_measure?>" name="measureNameShort" id="measureNameShort" placeholder="Краткое название ед. измерения" value="<?php echo $this->oMeasure->name_short;?>" />
+                        <ul class="parsley-error-list _validate-errors" id="measureNameShortErrors"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="measureForms1" class="col-lg-1 control-label">Форма 1</label>
+                    <div class="col-lg-11">
+                        <input type="text" class="form-control" name="measureForms[]" id="measureForms1" placeholder="Форма (1 рубль, 101 рубль)" value="<?php echo $this->oMeasure->forms[0];?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="measureForms2" class="col-lg-1 control-label">Форма 2</label>
+                    <div class="col-lg-11">
+                        <input type="text" class="form-control" name="measureForms[]" id="measureForms2" placeholder="Форма (2 рубля)" value="<?php echo $this->oMeasure->forms[1];?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="measureForms3" class="col-lg-1 control-label">Форма 3</label>
+                    <div class="col-lg-11">
+                        <input type="text" class="form-control" name="measureForms[]" id="measureForms3" placeholder="Форма (10 рублей)" value="<?php echo $this->oMeasure->forms[2];?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-success">Сохранить</button>
+                    </div>
+                </div>
+        </div>
+    </section>
+</form>
