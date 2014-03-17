@@ -28,26 +28,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $oFront->setRouter($oRouter);
     }
     
-    protected function _initModules() {
-        $aModules = array();
-        $oLoader = $this->getResourceLoader();
-        $oDir = new DirectoryIterator(APPLICATION_PATH . '/modules');
-        foreach ( $oDir->current() as $oEntity ) {
-            if ( $oEntity->isDot() || !$oEntity->isDir() ) {
-                continue;
-            }
-            $sPrefix = $oEntity->getFilename();
-            $oLoader->addResourceType($sPrefix . '_helper', 'modules/' . $sPrefix . '/helpers', ucfirst($sPrefix) . '_Helper');
-            $oLoader->addResourceType($sPrefix . '_model', 'modules/' . $sPrefix . '/models', ucfirst($sPrefix) . '_Model');
-            $oLoader->addResourceType($sPrefix . '_model_mapper', 'modules/' . $sPrefix . '/models/mappers', ucfirst($sPrefix) . '_Model_Mapper');
-            $oLoader->addResourceType($sPrefix . '_exception', 'modules/' . $sPrefix . '/exceptions', ucfirst($sPrefix) . '_Exception');
-            $oLoader->addResourceType($sPrefix . '_role', 'modules/' . $sPrefix . '/roles', ucfirst($sPrefix) . '_Role');
-            $aModules[strtolower($sPrefix)] = array();
-        }
-        Zend_Registry::set('modules', $aModules);
-    }
-    
     protected function _initLoader() {
+        // Small lifehack to use resources plugins while bootstrapping
+        $oFront = Zend_Controller_Front::getInstance();
+        $oFront->setParam('bootstrap', $this);
+        
         $oLoader = $this->getResourceLoader();
         // Common helpers
         $oLoader->addResourceType('common_helper', 'helpers', 'Common_Helper');
@@ -63,6 +48,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $oLoader->addResourceType('common_controller', 'controllers', 'Controller');
         // Common addons
         $oLoader->addResourceType('common_addon', 'addons', 'Addon');
+    }
+    
+    protected function _initModules() {
+        $oLoader = $this->getResourceLoader();
+        $aModules = Mg_Common_Helper_Module::getModules();
+        foreach ($aModules as $aModule) {
+            $sPrefix = $aModule['filename'];
+            $oLoader->addResourceType($sPrefix . '_helper', 'modules/' . $sPrefix . '/helpers', ucfirst($sPrefix) . '_Helper');
+            $oLoader->addResourceType($sPrefix . '_model', 'modules/' . $sPrefix . '/models', ucfirst($sPrefix) . '_Model');
+            $oLoader->addResourceType($sPrefix . '_model_mapper', 'modules/' . $sPrefix . '/models/mappers', ucfirst($sPrefix) . '_Model_Mapper');
+            $oLoader->addResourceType($sPrefix . '_exception', 'modules/' . $sPrefix . '/exceptions', ucfirst($sPrefix) . '_Exception');
+            $oLoader->addResourceType($sPrefix . '_role', 'modules/' . $sPrefix . '/roles', ucfirst($sPrefix) . '_Role');
+        }
     }
     
     protected function _initDoctype() {
