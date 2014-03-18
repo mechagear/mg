@@ -1,0 +1,73 @@
+<div class="m-b-md">
+    <h3 class="m-b-none">Пользователи</h3>
+</div>
+
+<section class="panel panel-default">
+    <div class="row text-sm wrapper">
+        <div class="col-sm-5 m-b-xs">
+            <a href="<?php echo $this->url(array('iUserId' => 0,), 'users-edit')?>" class="btn btn-sm btn-success"><i class="fa fa-plus-circle"></i> Новый пользователь</a>        
+        </div>
+        <div class="col-sm-4 m-b-xs"></div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="text" class="input-sm form-control" placeholder="Поиск">
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Искать</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped b-t b-light text-sm">
+            <thead>
+                <tr>
+                    <th width="20"><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Дата регистрации</th>
+                    <th>Дата изменения</th>
+                    <th>Роль</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->oUsers->count() > 0) { ?>
+                <?php foreach ($this->oUsers->getCurrentItems() as $oUser) { ?>
+                <tr>
+                    <td><input type="checkbox" name="user_selected[]" value="2"></td>
+                    <td><?php echo $oUser->id_user;?></td>
+                    <td><?php echo $oUser->nickname?></td>
+                    <td><?php echo $oUser->email;?></td>
+                    <td><?php echo Mg_Common_Helper_Date::toViewWithTime($oUser->date_create);?></td>
+                    <td><?php echo Mg_Common_Helper_Date::toViewWithTime($oUser->date_change);?></td>
+                    <td><?php echo Mg_Common_Helper_Role::getRoleName($oUser->role);?></td>
+                    <td><?php echo $this->aStatuses[$oUser->id_status]->name?></td>
+                    <td>
+                        <a href="<?=$this->url(array('iUserId' => $oUser->id_user,), 'users-edit')?>" title="Редактировать"><i class="fa fa-x2 fa-pencil"></i></a>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php } else { ?>
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i> <b>Нет ни одного пользователя</b>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <footer class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 hidden-xs"></div>
+            <div class="col-sm-4 text-center"></div>
+            <div class="col-sm-4 text-right text-center-xs">
+                <?php echo $this->paginationControl($this->oUsers, 'Sliding', 'partials/pagination.phtml');?>
+            </div>
+        </div>
+    </footer>
+</section>

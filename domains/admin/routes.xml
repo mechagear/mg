@@ -210,6 +210,25 @@
         </chains>
     </shop>
     
+    <!-- users -->
+    <users type="Zend_Controller_Router_Route">
+        <route>users</route>
+        <chains>
+            <list type="Zend_Controller_Router_Route">
+                <route>:sFilters/:iPage</route>
+                <defaults module="admin" controller="user" action="list" sFilters="" iPage="1"></defaults>
+                <reqs iPage="[0-9]+"></reqs>
+            </list>
+            <edit type="Zend_Controller_Router_Route">
+                <route>edit/:iUserId</route>
+                <defaults module="admin" controller="user" action="edit"></defaults>
+                <reqs iUserId="[0-9]+"></reqs>
+            </edit>
+        </chains>
+    </users>
+    <!-- /users -->
+    
+    
     <tools type="Zend_Controller_Router_Route_Static">
         <route>tools</route>
         <defaults controller="admin" action="tools" />

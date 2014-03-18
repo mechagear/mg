@@ -12,6 +12,11 @@ class Mg_Common_Helper_Date
         return date('d.m.Y', $sDate);
     }
     
+    public static function toViewWithTime($sDate) {
+        $sDate = strtotime($sDate);
+        return date('d.m.Y H:i:s', $sDate);
+    }
+    
     public static function getHour($sDate) {
         $sDate = strtotime($sDate);
         return date('H', $sDate);
