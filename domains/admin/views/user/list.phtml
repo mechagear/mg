@@ -1,3 +1,10 @@
+<script src="<?=PUBLIC_FILES_PATH?>/js/inline.edit.jquery.js" ></script>
+<script>
+$(document).ready(function(){
+    $('._inline-edit').inlineEditor(); 
+});
+</script>
+
 <div class="m-b-md">
     <h3 class="m-b-none">Пользователи</h3>
 </div>
@@ -38,7 +45,7 @@
                 <tr>
                     <td><input type="checkbox" name="user_selected[]" value="2"></td>
                     <td><?php echo $oUser->id_user;?></td>
-                    <td><?php echo $oUser->nickname?></td>
+                    <td><div class="_inline-edit" data-value="<?=$oUser->nickname?>" data-cname="user" data-field="nickname" data-identifier="<?=$oUser->id_user?>"><?php echo $oUser->nickname?></div></td>
                     <td><?php echo $oUser->email;?></td>
                     <td><?php echo Mg_Common_Helper_Date::toViewWithTime($oUser->date_create);?></td>
                     <td><?php echo Mg_Common_Helper_Date::toViewWithTime($oUser->date_change);?></td>
