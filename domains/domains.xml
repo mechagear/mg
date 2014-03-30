@@ -39,4 +39,12 @@
         </options>
     </CAMRY>
     
+    <MULTITRONICS>
+        <name>Мультитроникс</name>
+        <hosts>
+            <primary host="multitronics.servicearea.ru"></primary>
+        </hosts>
+        <dir>multitronics.ru</dir>
+    </MULTITRONICS>
+    
 </domains>

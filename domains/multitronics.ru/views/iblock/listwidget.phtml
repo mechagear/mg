@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h4><?=$this->oIblock->name?></h4>
+    </div>
+    <ul class="list-group">
+        <? foreach ($this->oElements as $oElement) { ?>
+        <? if ( $this->sRoute ) { ?>
+        <li class="list-group-item"><a href="<?=$this->url(array('sCategoryUrl' => Mg_Base_Helper_IblockCategory::getIblockCategory($oElement->id_category)->url, 'sElementUrl' => $oElement->url), $this->sRoute . '-element')?>"><?=$oElement->name?></a></li>
+        <? } else { ?>
+        <li class="list-group-item"><?=$oElement->name?></li>
+        <? } ?>
+        <? } ?>
+    </ul>
+</div>

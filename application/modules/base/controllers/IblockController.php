@@ -38,4 +38,31 @@ class Base_IblockController extends Mg_Controller_Abstract
         $this->view->oCategory = $oCategory;
         $this->view->oElement = $oElement;
     }
+    
+    
+    public function listwidgetAction() {
+        $sRoute = $this->_getParam('route', '');
+        $sIblockCode = $this->_getParam('sIblockCode', '');
+        $oIblock = Mg_Base_Helper_Iblock::getIblockByCode($sIblockCode);
+        if ( !$oIblock ) {
+            return false;
+        }
+        
+        $oCategories = Mg_Base_Helper_IblockCategory::getIblockCategoriesFlatTree($oIblock->id_iblock);
+        $aCategories = array();
+        foreach ($oCategories as $aCategory) {
+            $aCategories[] = $aCategory['id_category'];
+        }
+        
+        $oIblockElementMapper = new Mg_Base_Model_Mapper_IblockElement();
+        $aWhere = array();
+        if ( !empty($aCategories) ) {
+            $aWhere[] = array('id_category IN (' . implode(',', $aCategories) . ')', '');
+        }
+        $oElements = $oIblockElementMapper->getList($aWhere, array('date_publish DESC', 'id_element DESC'), 1, 3);
+        
+        $this->view->oElements = $oElements;
+        $this->view->oIblock = $oIblock;
+        $this->view->sRoute = $sRoute;
+    }
 }

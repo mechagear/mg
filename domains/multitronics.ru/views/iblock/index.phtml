@@ -1,0 +1,23 @@
+<? $this->layout()->setLayout('layout-lmenu') ?>
+<div class="page-header">
+    <h1><?=$this->oIblock->name?></h1>
+</div>
+<ul class="media-list">
+<? foreach ($this->oElements as $oElement) { ?>
+  <li class="media">
+    <?php
+    $aImages = Mg_Base_Helper_Image::getImages($oElement->id_element, Mg_Base_Helper_Image::OBJ_IBLOCK_ELEMENT_IMAGE, 'iblock_element_preview');
+    $aImage = array_shift($aImages);
+    ?>
+    <a class="pull-left" href="#">
+      <img class="media-object" src="/pub_img/<?=$aImage['url']?>" alt="">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading"><?=$oElement->name?></h4>
+      <?=$oElement->short_text?>
+      <a href="<?=$this->url(array('sElementUrl' => $oElement->url, 'sCategoryUrl' => Mg_Base_Helper_IblockCategory::getIblockCategory($oElement->id_category)->url), $this->sRootRoute . '-element')?>">Подробнее &raquo;</a>
+    </div>
+  </li>
+<? } ?>
+</ul>
+<?php echo $this->paginationControl($this->oElements, 'Sliding', 'partials/pagination.phtml');?>

@@ -20,15 +20,15 @@
         <route>pages</route>
         <chains>
             <default>
-                <defaults module="admin" controller="page" action="pages" />
+                <defaults module="base" controller="admin_page" action="pages" />
             </default>
             <list type="Zend_Controller_Router_Route">
                 <route>:iPage</route>
-                <defaults module="admin" controller="page" action="pages" iPage="1" />
+                <defaults module="base" controller="admin_page" action="pages" iPage="1" />
             </list>
             <edit type="Zend_Controller_Router_Route">
                 <route>edit/:iPageId</route>
-                <defaults module="admin" controller="page" action="pageedit" />
+                <defaults module="base" controller="admin_page" action="pageedit" />
             </edit>
         </chains>
     </pages>
@@ -37,7 +37,7 @@
         <route>iblock</route>
         <chains>
             <default>
-                <defaults module="admin" controller="iblock" action="iblock" />
+                <defaults module="base" controller="admin_iblock" action="iblock" />
             </default>
             <ajax type="Zend_Controller_Router_Route">
                 <route>ajax</route>
@@ -47,7 +47,7 @@
                         <chains>
                             <images type="Zend_Controller_Router_Route">
                                 <route>images</route>
-                                <defaults module="admin" controller="iblock" action="ajaxelementimages" />
+                                <defaults module="base" controller="admin_iblock" action="ajaxelementimages" />
                             </images>
                         </chains>
                     </element>
@@ -55,26 +55,44 @@
             </ajax>
             <list type="Zend_Controller_Router_Route">
                 <route>:iPage</route>
-                <defaults module="admin" controller="iblock" action="iblock" iPage="1" />
+                <defaults module="base" controller="admin_iblock" action="iblock" iPage="1" />
             </list>
             <category type="Zend_Controller_Router_Route">
                 <route>categories/:iIblockId/:iCategoryId/:iPage</route>
-                <defaults module="admin" controller="iblock" action="iblockcategory" iCategoryId="0" iPage="1" />
+                <defaults module="base" controller="admin_iblock" action="iblockcategory" iCategoryId="0" iPage="1" />
                 <reqs iIblockId="[0-9]+" iCategoryId="[0-9]+" iPage="[0-9]+"></reqs>
             </category>
             <elements type="Zend_Controller_Router_Route">
                 <route>elements/:iIblockId/:iCategoryId/:iPage</route>
-                <defaults module="admin" controller="iblock" action="iblockelements" iCategoryId="0" iPage="1" />
+                <defaults module="base" controller="admin_iblock" action="iblockelements" iCategoryId="0" iPage="1" />
                 <reqs iIblockId="[0-9]+" iCategoryId="[0-9]+" iPage="[0-9]+"></reqs>
             </elements>
             <editelement type="Zend_Controller_Router_Route">
                 <route>elements/edit/:iCategoryId/:iElementId</route>
-                <defaults module="admin" controller="iblock" action="iblockelementedit" iElementId="0" />
+                <defaults module="base" controller="admin_iblock" action="iblockelementedit" iElementId="0" />
                 <reqs iElementId="[0-9]+" iCategoryId="[0-9]+"></reqs>
             </editelement>
         </chains>
     </iblock>
-
+    
+    <!-- users -->
+    <users type="Zend_Controller_Router_Route">
+        <route>users</route>
+        <chains>
+            <list type="Zend_Controller_Router_Route">
+                <route>:sFilters/:iPage</route>
+                <defaults module="base" controller="admin_user" action="list" sFilters="" iPage="1"></defaults>
+                <reqs iPage="[0-9]+"></reqs>
+            </list>
+            <edit type="Zend_Controller_Router_Route">
+                <route>edit/:iUserId</route>
+                <defaults module="base" controller="admin_user" action="edit"></defaults>
+                <reqs iUserId="[0-9]+"></reqs>
+            </edit>
+        </chains>
+    </users>
+    <!-- /users -->
+    
     <cities type="Zend_Controller_Router_Route_Static">
         <route>cities</route>
         <chains>
@@ -115,7 +133,7 @@
         <route>shop</route>
         <chains>
             <default>
-                <defaults module="admin" controller="shop" action="index" />
+                <defaults module="shop" controller="admin_shop" action="index" />
             </default>
             <ajax type="Zend_Controller_Router_Route">
                 <route>ajax</route>
@@ -125,7 +143,7 @@
                         <chains>
                             <category>
                                 <route>category</route>
-                                <defaults module="admin" controller="shop" action="ajaxcategoryfind"/>
+                                <defaults module="shop" controller="admin_shop" action="ajaxcategoryfind"/>
                             </category>
                         </chains>
                     </find>
@@ -133,11 +151,11 @@
             </ajax>
             <list type="Zend_Controller_Router_Route">
                 <route>/</route>
-                <defaults module="admin" controller="shop" action="list" />
+                <defaults module="shop" controller="admin_shop" action="list" />
             </list>
             <edit type="Zend_Controller_Router_Route">
                 <route>edit/:iShopId</route>
-                <defaults module="admin" controller="shop" action="edit" iShopId="0" />
+                <defaults module="shop" controller="admin_shop" action="edit" iShopId="0" />
                 <reqs iShopId="[0-9]+"></reqs>
             </edit>
             <categories type="Zend_Controller_Router_Route">
@@ -145,16 +163,16 @@
                 <reqs iShopId="[0-9]+"></reqs>
                 <chains>
                     <default>
-                        <defaults module="admin" controller="shop" action="category5" iCategoryId="0" iPage="1" />
+                        <defaults module="shop" controller="admin_shop" action="category5" iCategoryId="0" iPage="1" />
                     </default>
                     <list type="Zend_Controller_Router_Route">
                         <route>category/:iCategoryId/:iPage</route>
-                        <defaults module="admin" controller="shop" action="category" iCategoryId="0" iPage="1" />
+                        <defaults module="shop" controller="admin_shop" action="category" iCategoryId="0" iPage="1" />
                         <reqs iShopId="[0-9]+" iCategoryId="[0-9]+"></reqs>
                     </list>
                     <edit type="Zend_Controller_Router_Route">
                         <route>category/edit/:iParentId/:iCategoryId</route>
-                        <defaults module="admin" controller="shop" action="categoryedit" iCategoryId="0" iParentId="0" />
+                        <defaults module="shop" controller="admin_shop" action="categoryedit" iCategoryId="0" iParentId="0" />
                         <reqs iShopId="[0-9]+" iCategoryId="[0-9]+" iParentId="[0-9]+"></reqs>
                     </edit>
                     <items type="Zend_Controller_Router_Route">
@@ -162,15 +180,15 @@
                         <reqs iCategoryId="[0-9]+"></reqs>
                         <chains>
                             <default>
-                                <defaults module="admin" controller="shop" action="items" iPage="1" />
+                                <defaults module="shop" controller="admin_shop" action="items" iPage="1" />
                             </default>
                             <list type="Zend_Controller_Router_Route">
                                 <route>:iPage</route>
-                                <defaults module="admin" controller="shop" action="items" iPage="1" />
+                                <defaults module="shop" controller="admin_shop" action="items" iPage="1" />
                             </list>
                             <edit type="Zend_Controller_Router_Route">
                                 <route>edit/:iItemId</route>
-                                <defaults module="admin" controller="shop" action="itemedit" iItemId="0" />
+                                <defaults module="shop" controller="admin_shop" action="itemedit" iItemId="0" />
                                 <reqs iItemId="[0-9]+"></reqs>
                             </edit>
                         </chains>
@@ -180,12 +198,12 @@
                         <chains>
                             <list type="Zend_Controller_Router_Route">
                                 <route>:iPage</route>
-                                <defaults module="admin" controller="shop" action="properties" iPage="1"></defaults>
+                                <defaults module="shop" controller="admin_shop" action="properties" iPage="1"></defaults>
                                 <reqs iShopId="[0-9]+"></reqs>
                             </list>
                             <edit type="Zend_Controller_Router_Route">
                                 <route>edit/:iPropertyId</route>
-                                <defaults module="admin" controller="shop" action="propertyedit"></defaults>
+                                <defaults module="shop" controller="admin_shop" action="propertyedit"></defaults>
                                 <reqs iShopId="[0-9]+" iPropertyId="[0-9]+"></reqs>
                             </edit>
                         </chains>
@@ -195,12 +213,12 @@
                         <chains>
                             <list type="Zend_Controller_Router_Route">
                                 <route>:iPage</route>
-                                <defaults module="admin" controller="shop" action="measures" iPage="1"></defaults>
+                                <defaults module="shop" controller="admin_shop" action="measures" iPage="1"></defaults>
                                 <reqs iShopId="[0-9]+"></reqs>
                             </list>
                             <edit type="Zend_Controller_Router_Route">
                                 <route>edit/:iMeasureId</route>
-                                <defaults module="admin" controller="shop" action="measureedit"></defaults>
+                                <defaults module="shop" controller="admin_shop" action="measureedit"></defaults>
                                 <reqs iShopId="[0-9]+" iMeasureId="[0-9]+"></reqs>
                             </edit>
                         </chains>
@@ -209,24 +227,6 @@
             </categories>
         </chains>
     </shop>
-    
-    <!-- users -->
-    <users type="Zend_Controller_Router_Route">
-        <route>users</route>
-        <chains>
-            <list type="Zend_Controller_Router_Route">
-                <route>:sFilters/:iPage</route>
-                <defaults module="admin" controller="user" action="list" sFilters="" iPage="1"></defaults>
-                <reqs iPage="[0-9]+"></reqs>
-            </list>
-            <edit type="Zend_Controller_Router_Route">
-                <route>edit/:iUserId</route>
-                <defaults module="admin" controller="user" action="edit"></defaults>
-                <reqs iUserId="[0-9]+"></reqs>
-            </edit>
-        </chains>
-    </users>
-    <!-- /users -->
     
     
     <tools type="Zend_Controller_Router_Route_Static">

@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="row spacer80"></div>
+    <div class="row">
+        <div class="col-md-6 col-push-6">
+            <script>
+            $(document).ready(function(){
+                $('#ajax-feedback-form').submit(function(event){
+                    event.preventDefault();
+                    $.post(
+                            $(this).attr('action'),
+                            {
+                                phone: $(this).children('#feedback-phone').val(),
+                                car: $(this).children('#feedback-car').val(),
+                                message: $(this).children('#feedback-message').val()
+                            },
+                            function(data){
+                                if ( data.result ) {
+                                    alert('Спасибо! Наш специалист свяжется с вами в ближайшее время!');
+                                    $('#ajax-feedback-form')[0].reset();
+                                } else {
+                                    alert('Ошибка: ' + data.error);
+                                }
+                            },
+                            'json'
+                    );
+                });
+            });
+            </script>
+            <a name="feedback-form"></a>
+            <h4>Записаться на обслуживание</h4>
+            <form class="form-main" role="form" name="ajax-form" id="ajax-feedback-form" action="<?php echo $this->url(array(),'feedback')?>" method="post">
+                <input id="feedback-phone" name="phone" type="tel" value="" class="form-control" placeholder="Телефон">
+                <select name="car" id="feedback-car" class="form-control">
+                    <?php foreach ($this->aCars as $oCarModel) { ?>
+                    <option value="<?php echo $oCarModel->name ?>"><?php echo $oCarModel->name ?></option>
+                    <?php } ?>
+                </select>
+                <textarea id="feedback-message" name="message" class="form-control" placeholder="Опишите вашу проблему"></textarea>
+                <button class="btn flat" type="submit" id="feedback-send"><i class="icon-ok"></i> ЗАПИСАТЬСЯ</button>            
+            </form>
+        </div>
+        <div class="col-md-6  col-pull-6">
+            <h4>Отзывы клиентов</h4> 
+            <div class="top-nav-content-slider-right">
+                <ul class="slides">
+                    <li>      
+                        <div class="client-says">
+                        “Был сегодня впервые на этом сервисе - всё понравилось,особенно уровень цен и знание машины специалистами. Рекомендую всем,вне зависимости от места жительства в Столице и области - лучше доехать и отдать автомобиль людям опытным, чем ездить "куда поближе" и удивляться качеству работ.”
+                        </div>
+                        <div class="client-name">
+                            <i class="icon-quote-right"></i> Сергей, Toyota Camry 2003
+                        </div>     
+                    </li>
+                    <li>      
+                        <div class="client-says">
+                        “У ребят одна, отличительная от всех, черта - никогда не грузят лишним. Два сервиса в Химках приговорили коробку к замене, а ребята просто восстановили крепление (за 2 копейки) и катаюсь и все отлично.”
+                        </div>
+                        <div class="client-name">
+                            <i class="icon-quote-right"></i> Владимир, Lexus ES 2005
+                        </div>      
+                    </li>
+                    <li>      
+                        <div class="client-says">
+                        “Большое вам спасибо! Который год уезжаю спокойная и довольная. Выслушиваете все мои "кажется", объясняете, а если ремонтируете, то очень быстро.”
+                        </div>
+                        <div class="client-name">
+                            <i class="icon-quote-right"></i> Надежда, Toyota Auris 2008
+                        </div>      
+                    </li>
+                    <li>      
+                        <div class="client-says">
+                        “Лично я тоже стал обслуживаться на Угрешской потому, что мне:<br/>
+                        1) Не задавали глупых вопросов типа "а что тут как", или "что делать будем"<br/>
+                        2) Не навязывали лишних услуг, которых на наши далеко не новые машинки можно навернуть немерянно.”
+                        </div>
+                        <div class="client-name">
+                            <i class="icon-quote-right"></i> Сергей, Toyota Camry 2001
+                        </div>      
+                    </li>
+                    <li>      
+                        <div class="client-says">
+                        “Был в воскресенье у ребят - передние колодки поменяли и попутно суппорта починили. Как всегда- все качественно и оперативно  ;) Спасибо за работу!
+                        Колодки кстати такие же оказывается поставили что в прошлый раз 04465-44050. Не знаю, где они их берут, что продают клиентам дешевле чем на экзисте!!! Рекомендую!”
+                        </div>
+                        <div class="client-name">
+                            <i class="icon-quote-right"></i> Илья, Toyota Matrix 2003
+                        </div>      
+                    </li>
+              </ul>
+            </div>         
+          </div>
+    </div>
+</div>

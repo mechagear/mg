@@ -36,11 +36,5 @@ class Mg_Controller_Abstract extends Zend_Controller_Action
         $aScriptPaths = $oLayout->getView()->getScriptPaths();
         $oLayout->getView()->setScriptPath(false);
         $oLayout->getView()->setScriptPath($aScriptPaths);
-        // set user last visit timestamp
-        /*$oRedis = Zend_Registry::get('redis');
-        if ( $oUser->id_user > 0 ) {
-            $iTimestamp = time();
-            $oRedis->zAdd('users_online', $iTimestamp, $oUser->id_user);
-        }*/ 
     }
 }

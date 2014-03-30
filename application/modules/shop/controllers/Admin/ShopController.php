@@ -1,20 +1,10 @@
 <?php
 
-class Admin_ShopController extends Mg_Controller_Abstract
+class Shop_Admin_ShopController extends Mg_Controller_Admin
 {
-    protected $oConfig;
-    
     public function init() {
         parent::init();
-        if (!$this->oAcl->isAllowed($this->oUser, 'cp', 'view') && !in_array($this->getRequest()->getActionName(), array('auth', 'unauth'))) {
-            $this->redirect($this->view->url(array(),'auth'), array('exit' => true,));
-            throw new Mg_Common_Exception_AccessDenied('No access');
-            exit;
-        }
-        
         $this->_helper->AjaxContext()->addActionContext('ajaxcategoryfind', 'json')->initContext('json');
-        
-        $this->oConfig = Zend_Registry::get('config');
     }
     
     protected function setNav($aParams) {

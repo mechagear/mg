@@ -1,0 +1,27 @@
+<?php echo $this->doctype() ?>
+<html class="not-ie">
+    <head>
+        <?php echo $this->partial('partials/head.phtml')?>
+    </head>
+    <body>
+        <?php echo $this->partial('partials/header.phtml')?>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $this->partial('partials/nav.phtml')?>
+                    <?php echo $this->navigation()->breadcrumbs()->setPartial('partials/breadcrumbs.phtml')?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <?=$this->action('listwidget', 'iblock', 'base', array('sIblockCode'=>'NEWS', 'route' => 'news'))?>
+                    <?=$this->action('listwidget', 'iblock', 'base', array('sIblockCode'=>'INFORMATION', 'route' => 'information'))?>
+                </div>
+                <div class="col-md-10">
+                    <?php echo $this->layout()->content ?>
+                </div>
+            </div>
+        </div>
+        <?php echo $this->partial('partials/footer.phtml')?>
+    </body>
+</html>

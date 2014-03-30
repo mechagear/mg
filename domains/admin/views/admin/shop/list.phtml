@@ -46,10 +46,10 @@
                     <td><a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop, 'iCategoryId'=>0, 'iPage'=>1,), 'shop-categories-list');?>"><?php echo $oShop->name?></a></td>
                     <td><?php echo $oShop->code;?></td>
                     <td>
-                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-properties-list')?>" title="Характеристики"><i class="fa fa-list-alt"></i></a> 
-                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-measures-list')?>" title="Ед. измерения"><i class="fa fa-arrows-alt"></i></a> 
-                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-edit')?>" title="Редактировать"><i class="fa fa-edit"></i></a> 
-                        <a href="#" title="Удалить"> <i class="fa fa-trash-o"></i> </a>
+                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-properties-list')?>" title="Характеристики"><i class="fa fa-x2 fa-list-alt"></i></a> 
+                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-measures-list')?>" title="Ед. измерения"><i class="fa fa-x2 fa-arrows-alt"></i></a> 
+                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-edit')?>" title="Редактировать"><i class="fa fa-x2 fa-edit"></i></a> 
+                        <a href="#" title="Удалить"> <i class="fa fa-x2 fa-trash-o"></i> </a> 
                     </td>
                 </tr>
                 <?php } ?>

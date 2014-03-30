@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<routes>
+    <index type="Zend_Controller_Router_Route">
+        <route>/</route>
+        <defaults module="base" controller="index" action="index" />
+    </index>
+    <pages type="Zend_Controller_Router_Route">
+        <route>:sPageUrl</route>
+        <reverse>%s</reverse>
+        <defaults module="base" controller="page" action="page" />
+        <map> 
+            <sPageUrl>1</sPageUrl>
+        </map>
+    </pages>
+    <information type="Zend_Controller_Router_Route">
+        <route>information</route>
+        <defaults sIblockCode="INFORMATION" />
+        <chains>
+            <default>
+                <defaults module="base" controller="iblock" action="index" />
+            </default>
+            <element type="Zend_Controller_Router_Route">
+                <route>:sCategoryUrl/:sElementUrl</route>
+                <defaults module="base" controller="iblock" action="element" />
+                <reqs sCategoryUrl="[0-9a-zA-Z-_]+" />
+            </element>
+        </chains>
+    </information>
+    <news type="Zend_Controller_Router_Route">
+        <route>news</route>
+        <defaults sIblockCode="NEWS" />
+        <chains>
+            <default>
+                <defaults module="base" controller="iblock" action="index" />
+            </default>
+            <element type="Zend_Controller_Router_Route">
+                <route>:sCategoryUrl/:sElementUrl</route>
+                <defaults module="base" controller="iblock" action="element" />
+                <reqs sCategoryUrl="[0-9a-zA-Z-_]+" />
+            </element>
+        </chains>
+    </news>
+    <codes type="Zend_Controller_Router_Route">
+        <route>codes</route>
+        <defaults sIblockCode="ERRCODES" />
+        <chains>
+            <default>
+                <route>:iPage</route>
+                <defaults module="base" controller="iblock" action="index" iPage="1" />
+            </default>
+            <element type="Zend_Controller_Router_Route">
+                <route>:sCategoryUrl/:sElementUrl</route>
+                <defaults module="base" controller="iblock" action="element" />
+                <reqs sCategoryUrl="[0-9a-zA-Z-_]+" />
+            </element>
+        </chains>
+    </codes>
+</routes>

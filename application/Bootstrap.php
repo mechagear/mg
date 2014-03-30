@@ -55,6 +55,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $aModules = Mg_Common_Helper_Module::getModules();
         foreach ($aModules as $aModule) {
             $sPrefix = $aModule['filename'];
+            $oLoader->addResourceType($sPrefix . '_admin_controller', 'modules/' . $sPrefix . '/controllers/admin', ucfirst($sPrefix) . '_Admin');
             $oLoader->addResourceType($sPrefix . '_helper', 'modules/' . $sPrefix . '/helpers', ucfirst($sPrefix) . '_Helper');
             $oLoader->addResourceType($sPrefix . '_model', 'modules/' . $sPrefix . '/models', ucfirst($sPrefix) . '_Model');
             $oLoader->addResourceType($sPrefix . '_model_mapper', 'modules/' . $sPrefix . '/models/mappers', ucfirst($sPrefix) . '_Model_Mapper');

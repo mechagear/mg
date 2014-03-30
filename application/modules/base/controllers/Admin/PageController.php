@@ -1,6 +1,6 @@
 <?php
 
-class Admin_PageController extends Mg_Controller_Abstract
+class Base_Admin_PageController extends Mg_Controller_Abstract
 {
     protected $oConfig;
     

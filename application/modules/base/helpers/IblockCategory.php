@@ -36,11 +36,14 @@ class Mg_Base_Helper_IblockCategory
         return $oResult;
     }
     
-    public static function getIblockChildCategories($iIdParent) {
+    public static function getIblockChildCategories($iIdParent, $iIblockId = 0) {
         $oIblockCategoryMapper = new Mg_Base_Model_Mapper_IblockCategory();
         $aWhere = array(
             array('id_parent = ?', intval($iIdParent)),
         );
+        if ( !empty($iIblockId) ) {
+            $aWhere[] = array('id_iblock = ?', intval($iIblockId));
+        }
         $oResult = $oIblockCategoryMapper->getList($aWhere, array('name ASC'));
         return $oResult;
     }

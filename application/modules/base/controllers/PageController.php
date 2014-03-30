@@ -35,4 +35,8 @@ class Base_PageController extends Mg_Controller_Abstract
         $this->view->oPage = $oPage;
     }
     
+    public function pagewidgetAction() {
+        $this->pageAction();
+    }
+    
 }
