@@ -269,6 +269,7 @@ class Zend_View_Helper_Navigation_Breadcrumbs
 
         // put breadcrumb pages in model
         $model = array('pages' => array());
+        
         if ($active = $this->findActive($container)) {
             $active = $active['page'];
             $model['pages'][] = $active;

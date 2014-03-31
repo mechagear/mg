@@ -3,7 +3,7 @@
     <!-- control panel -->
     <index type="Zend_Controller_Router_Route_Static">
         <route>/</route>
-        <defaults module="admin" controller="admin" action="index" />
+        <defaults module="admin" controller="admin" action="index" title="ЦУП" />
     </index>
 
     <!-- auth and registration -->

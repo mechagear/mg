@@ -252,7 +252,7 @@ class Zend_Navigation_Page_Mvc extends Zend_Navigation_Page
                                       $this->getRoute(),
                                       $this->getResetParams(),
                                       $this->getEncodeUrl());
-
+        
         // Use scheme?
         $scheme = $this->getScheme();
         if (null !== $scheme) {

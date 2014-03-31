@@ -19,6 +19,10 @@ class Base_Admin_UserController extends Mg_Controller_Admin
         
         $this->view->aStatuses = Mg_Common_Helper_Status::getStatusesAsArray($oUserMapper->getDbTable()->getTable());
         $this->view->oUsers = $oUsers;
+        
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'users-list', 'label' => 'Пользователи', 'params' => array()),
+        ));
     }
     
     public function editAction() {
@@ -70,6 +74,11 @@ class Base_Admin_UserController extends Mg_Controller_Admin
         $this->view->aRoles = Mg_Common_Helper_Role::getRoles();
         $this->view->aStatuses = Mg_Common_Helper_Status::getStatusesAsArray($oUserMapper->getDbTable()->getTable());
         $this->view->oUser = $oUser;
+        
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'users-list', 'label' => 'Пользователи', 'params' => array()),
+            array('is_mvc' => true, 'route' => 'users-edit', 'label' => ($oUser->id_user > 0) ? $oUser->email : 'Новый пользователь', 'params' => array('iUserId' => $oUser->id_user)),
+        ));
     }
     
 }

@@ -15,6 +15,10 @@ class Base_Admin_IblockController extends Mg_Controller_Admin
         $oIblockMapper = new Mg_Base_Model_Mapper_Iblock();
         $oIblocks = $oIblockMapper->getList(null, array('name ASC'), $iPage, 20);
         $this->view->oIblocks = $oIblocks;
+        
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'iblock-list', 'label' => 'Инфоблоки', 'params' => array()),
+        ));
     }
     /**
      * Iblock category & elements
@@ -23,26 +27,28 @@ class Base_Admin_IblockController extends Mg_Controller_Admin
         $iPage = $this->_getParam('iPage',1);
         $iIblockId = $this->_getParam('iIblockId',0);
         $iIdCategory = $this->_getParam('iCategoryId',0);
-        /*
-        $oIblockElementMapper = new Mg_Base_Model_Mapper_IblockElement();
-        $aWhere = array(
-            array('id_category = ?', $iIdCategory),
-        );
-        $oElements = $oIblockElementMapper->getList($aWhere, array('name ASC'), $iPage, 20);
-        */
         
-        
+        $oIblock = Mg_Base_Helper_Iblock::getIblock($iIblockId);
+        $oCategory = ($iIdCategory > 0) ? Mg_Base_Helper_IblockCategory::getIblockCategory($iIdCategory) : new Mg_Base_Model_IblockCategory();
         
         $this->view->iIblockId = $iIblockId;
-        $this->view->oCategory = ($iIdCategory > 0) ? Mg_Base_Helper_IblockCategory::getIblockCategory($iIdCategory) : new Mg_Base_Model_IblockCategory();
+        $this->view->oCategory = $oCategory;
         $this->view->oCategories = Mg_Base_Helper_IblockCategory::getIblockChildCategories($iIdCategory, $iIblockId);
         //$this->view->oElements = $oElements;
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'iblock-list', 'label' => 'Инфоблоки', 'params' => array()),
+            array('is_mvc' => true, 'route' => 'iblock-category', 'label' => $oIblock->name, 'params' => array('iIblockId' => $iIblockId, 'iCategoryId' => 0, 'iPage' => 1,)),
+            array('is_mvc' => true, 'route' => 'iblock-category', 'label' => ($oCategory->id_category > 0) ? $oCategory->name : 'Корень', 'params' => array('iIblockId' => $iIblockId, 'iCategoryId' => $oCategory->id_category, 'iPage' => 1,)),
+        ));
     }
     
     public function iblockelementsAction() {
         $iPage = $this->_getParam('iPage',1);
         $iIblockId = $this->_getParam('iIblockId',0);
         $iIdCategory = $this->_getParam('iCategoryId',0);
+        
+        $oIblock = Mg_Base_Helper_Iblock::getIblock($iIblockId);
+        $oCategory = ($iIdCategory > 0) ? Mg_Base_Helper_IblockCategory::getIblockCategory($iIdCategory) : new Mg_Base_Model_IblockCategory();
         
         $oIblockElementMapper = new Mg_Base_Model_Mapper_IblockElement();
         $aWhere = array(
@@ -53,6 +59,13 @@ class Base_Admin_IblockController extends Mg_Controller_Admin
         $this->view->iIblockId = $iIblockId;
         $this->view->oCategory = ($iIdCategory > 0) ? Mg_Base_Helper_IblockCategory::getIblockCategory($iIdCategory) : new Mg_Base_Model_IblockCategory();
         $this->view->oElements = $oElements;
+        
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'iblock-list', 'label' => 'Инфоблоки', 'params' => array()),
+            array('is_mvc' => true, 'route' => 'iblock-category', 'label' => $oIblock->name, 'params' => array('iIblockId' => $iIblockId, 'iCategoryId' => 0, 'iPage' => 1,)),
+            array('is_mvc' => true, 'route' => 'iblock-category', 'label' => ($oCategory->id_category > 0) ? $oCategory->name : 'Корень', 'params' => array('iIblockId' => $iIblockId, 'iCategoryId' => $oCategory->id_category, 'iPage' => 1,)),
+            array('is_mvc' => true, 'route' => 'iblock-elements', 'label' => 'Элементы', 'params' => array('iIblockId' => $iIblockId, 'iCategoryId' => 0, 'iPage' => 1,)),
+        ));
     }
     /**
      * Iblock element editing
@@ -68,6 +81,7 @@ class Base_Admin_IblockController extends Mg_Controller_Admin
         }
         
         $oCategory = ($oElement->id_category > 0) ? Mg_Base_Helper_IblockCategory::getIblockCategory($oElement->id_category) : Mg_Base_Helper_IblockCategory::getIblockCategory($iCategoryId);
+        $oIblock = Mg_Base_Helper_Iblock::getIblock($oCategory->id_iblock);
         
         $aImages = ($oElement->id_element) ? Mg_Base_Helper_Image::getImages($oElement->id_element, Mg_Base_Helper_Image::OBJ_IBLOCK_ELEMENT_IMAGE, 'iblock_element_preview', 1) : array();
         $aImagePreferences = Mg_Base_Helper_Image::getPreferences();
@@ -155,6 +169,13 @@ class Base_Admin_IblockController extends Mg_Controller_Admin
         $this->view->oElement = $oElement;
         $this->view->aImages = $aImages;
         $this->view->aImagePreferences = $aImagePreferences;
+        
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'iblock-list', 'label' => 'Инфоблоки', 'params' => array()),
+            array('is_mvc' => true, 'route' => 'iblock-category', 'label' => $oIblock->name, 'params' => array('iIblockId' => $oIblock->id_iblock, 'iCategoryId' => 0, 'iPage' => 1,)),
+            array('is_mvc' => true, 'route' => 'iblock-category', 'label' => ($oCategory->id_category > 0) ? $oCategory->name : 'Корень', 'params' => array('iIblockId' => $oIblock->id_iblock, 'iCategoryId' => $oCategory->id_category, 'iPage' => 1,)),
+            array('is_mvc' => true, 'route' => 'iblock-editelement', 'label' => ($oElement->id_element > 0) ? $oElement->name : 'Новый элемент', 'params' => array('iCategoryId' => 0, 'iElementId' => $oElement->id_element,)),
+        ));
     }
     
     

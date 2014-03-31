@@ -678,6 +678,7 @@ abstract class Zend_View_Helper_Navigation_HelperAbstract
 
         foreach ($iterator as $page) {
             $currDepth = $iterator->getDepth();
+            
             if ($currDepth < $minDepth || !$this->accept($page)) {
                 // page is not accepted
                 continue;
@@ -704,7 +705,7 @@ abstract class Zend_View_Helper_Navigation_HelperAbstract
                 }
             }
         }
-
+        
         if ($found) {
             return array('page' => $found, 'depth' => $foundDepth);
         } else {
@@ -840,7 +841,7 @@ abstract class Zend_View_Helper_Navigation_HelperAbstract
                 $accept = $this->accept($parent, true);
             }
         }
-
+        
         return $accept;
     }
 

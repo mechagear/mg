@@ -126,9 +126,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     protected function _initNavigation() {
-        $oNavXml = new Zend_Config_Xml(DOMAIN_PATH . '/navigation.xml');
-        $oNavigation = new Zend_Navigation($oNavXml);
-        Zend_Registry::set('Zend_Navigation', $oNavigation);
+        //$oNavXml = new Zend_Config_Xml(DOMAIN_PATH . '/navigation.xml');
+        //$oNavigation = new Zend_Navigation($oNavXml);
+        //Zend_Registry::set('Zend_Navigation', $oNavigation);
     }
     
     protected function _initSession() {

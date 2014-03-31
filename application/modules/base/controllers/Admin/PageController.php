@@ -16,6 +16,7 @@ class Base_Admin_PageController extends Mg_Controller_Abstract
     
     public function pagesAction() {
         $iPage = $this->_getParam('iPage',1); // paginator page number
+        
         //Getting pages list
         $oPageMapper = new Mg_Base_Model_Mapper_Page();
         $aWhere = array();
@@ -24,6 +25,9 @@ class Base_Admin_PageController extends Mg_Controller_Abstract
         $this->view->aStatuses = Mg_Common_Helper_Status::getStatusesAsArray($oPageMapper->getDbTable()->getTable());
         $this->view->oPages = $oPages;
         
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'pages-list', 'label' => 'Статические страницы', 'params' => array()),
+        ));
     }
     
     /**
@@ -98,6 +102,11 @@ class Base_Admin_PageController extends Mg_Controller_Abstract
         $this->view->aStatuses = Mg_Common_Helper_Status::getStatusesAsArray($oPageMapper->getDbTable()->getTable());
         $this->view->aRedirectCodes = Mg_Base_Helper_Page::getRedirectCodes();
         $this->view->oPage = $oPage;
+        
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'pages-list', 'label' => 'Статические страницы', 'params' => array()),
+            array('is_mvc' => true, 'route' => 'pages-pageedit', 'label' => 'Редактирование страницы', 'params' => array('iPageId' => $iPageId)),
+        ));
     }
     
 }

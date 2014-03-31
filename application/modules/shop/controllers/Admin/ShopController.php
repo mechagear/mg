@@ -8,6 +8,7 @@ class Shop_Admin_ShopController extends Mg_Controller_Admin
     }
     
     protected function setNav($aParams) {
+        return;
         $oNavigation = Zend_Registry::get('Zend_Navigation');
         $oCurPage = $oNavigation->findBy('route', 'shop-list');
         if ( !$oCurPage ) {
