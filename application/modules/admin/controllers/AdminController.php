@@ -48,6 +48,13 @@ class Admin_AdminController extends Mg_Controller_Abstract
                     $sIdentity = $oResult->getIdentity();
                     $oUser = Mg_Common_Helper_User::getUserByIdentity($sIdentity);
                     $oAuthSession->user = $oUser;
+                    
+                    // add user id to Session
+                    $oSession = $oAuthSession->session;
+                    $oSession->id_user = $oUser->id_user;
+                    $oSessionMapper = new Mg_Model_Mapper_Session();
+                    $oSessionMapper->save($oSession);
+                    
                     if ( $bRemember ) {
                         Zend_Session::rememberMe(604800); // 1 week
                     }
@@ -64,6 +71,12 @@ class Admin_AdminController extends Mg_Controller_Abstract
         $oAuth->clearIdentity();
         $oAuthSession = new Zend_Session_Namespace('auth');
         $oAuthSession->user = new Mg_Model_User();
+        // Clear user id from Session
+        $oSession = $oAuthSession->session;
+        $oSession->id_user = 0;
+        $oSessionMapper = new Mg_Model_Mapper_Session();
+        $oSessionMapper->save($oSession);
+        
         $this->redirect('/');
     }
     

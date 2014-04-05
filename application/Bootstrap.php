@@ -12,6 +12,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         //Zend_Registry::set('redis', new Redis());
     }
     
+    protected function _initDb() {
+        $oResource = $this->getPluginResource('db');
+        $oAdapter = $oResource->getDbAdapter();
+        Zend_Registry::set('db', $oAdapter);
+    }
+    
     protected function _initRoutes() {
         $this->bootstrap('frontController');
         $oFront = $this->getResource('frontController');
@@ -132,7 +138,83 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     protected function _initSession() {
-        Zend_Session::start();
+        $sMGSid = $_COOKIE['mgsid'];
+        // Create session object (new or existing)
+        $oSession = new Mg_Model_Session();
+        $oAuthSession = new Zend_Session_Namespace('auth');
+        // TODO: Save Session obj in Zend_Session_Namespace
+        if ( !empty($sMGSid) ) {
+            if (!$oAuthSession->session) {
+                $oSession = Mg_Common_Helper_Session::getSessionByKey($sMGSid);
+                $oAuthSession->session = $oSession;
+            } else {
+                $oSession = $oAuthSession->session;
+            }
+        }
+        
+        // TODO: Make some session validations here
+        // Create new session if sess_key is empty
+        if ($oSession->id_session == 0) {
+            Zend_Session::start();
+            $oSessionMapper = new Mg_Model_Mapper_Session();
+            $oSession->sess_key = Zend_Session::getId();
+            $oSession->id_user = 0;
+            $oSession->ip_address = $_SERVER['REMOTE_ADDR'];
+            $iSessionId = $oSessionMapper->save($oSession);
+            if ( $iSessionId > 0 ) {
+                // TODO: Create something more secure
+                setcookie('mgsid', $oSession->key, time()+60*60*24*14, '/', $_SERVER['HTTP_HOST'], false, true);
+                $sMGSid = $oSession->key;
+                $oAuthSession->session = $oSession;
+            }
+        }
+        // Start session for existing sess_key
+        if ($oSession->id_session > 0 && !Zend_Session::isStarted()) {
+            Zend_Session::setId($oSession->sess_key);
+            Zend_Session::start();
+        }
+        
+        // Is person authentified?
+        $oUser = new Mg_Model_User();
+        $oAuth = Zend_Auth::getInstance();
+        if ( !$oAuth->getIdentity() ) {
+            if ($oSession->id_user > 0) {
+                $oUser = Mg_Common_Helper_User::getUser($oSession->id_user);
+                // If we have id_user in Session, then we can authentificate user automatically
+                if ($oUser->id_user > 0) {
+                    $oAuthAdapter = new Zend_Auth_Adapter_DbTable($this->oDb, 'tbl_user', 'email', 'password');
+                    $oAuthAdapter->setIdentity($oUser->email);
+                    $oAuthAdapter->setCredential($oUser->password);
+                    $oAuthResult = $oAuth->authenticate($oAuthAdapter);
+                    // If not valid auth, than empty user
+                    if (!$oAuthResult->isValid()) {
+                        $oUser = new Mg_Model_User();
+                    }
+                }
+            }
+            $oAuthSession->user = $oUser;
+        } else {
+            $sIdentity = $oAuth->getIdentity();
+            if (!$oAuthSession->user) {
+                $oAuthUser = Mg_Common_Helper_User::getUserByIdentity($sIdentity);
+            } else {
+                $oAuthUser = $oAuthSession->user;
+            }
+            // Session user and auth user not equal
+            // Reauthentificate
+            if ( $oAuthUser->id_user != $oSession->id_user ) {
+                $oUser = Mg_Common_Helper_User::getUser($oSession->id_user);
+                $oAuthAdapter = new Zend_Auth_Adapter_DbTable($this->oDb, 'tbl_user', 'email', 'password');
+                $oAuthAdapter->setIdentity($oUser->id_user);
+                $oAuthAdapter->setCredential($oUser->password);
+                $oAuthResult = $oAuth->authenticate($oAuthAdapter);
+                // If not valid auth, than empty user
+                if (!$oAuthResult->isValid()) {
+                    $oUser = new Mg_Model_User();
+                }
+                $oAuthSession->user = $oUser;
+            }
+        }
     }
     
     protected function _initAcl() {
