@@ -12,17 +12,15 @@
       Категории
     </header>
     <div class="row text-sm wrapper">
-        <div class="col-sm-5 m-b-xs">
-            <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop, 'iCategoryId' => 0, 'iParentId' => $this->oCategory->id_category,), 'shop-categories-edit')?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i></a>
+        <div class="col-sm-2 m-b-xs">
+            <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop, 'iCategoryId' => 0, 'iParentId' => $this->oCategory->id_category,), 'shop-categories-edit')?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i> Создать категорию</a>
         </div>
-        <div class="col-sm-4 m-b-xs"></div>
+        <div class="col-sm-7 m-b-xs">
+            
+        </div>
         <div class="col-sm-3">
-            <div class="input-group">
-                <input type="text" class="input-sm form-control" placeholder="Поиск">
-                <span class="input-group-btn">
-                    <button class="btn btn-sm btn-default" type="button">Искать</button>
-                </span>
-            </div>
+            <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop,), 'shop-categories-properties-list')?>" title="Характеристики" class="btn btn-sm btn-default"><i class="fa fa-list-alt"></i> Характеристики</a> 
+            <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop,), 'shop-categories-measures-list')?>" title="Ед. измерения" class="btn btn-sm btn-default"><i class="fa fa-arrows-alt"></i> Единицы измерения</a> 
         </div>
     </div>
     <div class="table-responsive">

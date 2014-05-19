@@ -1,0 +1,109 @@
+@import url("//fonts.googleapis.com/css?family=Lobster:300,400,700,400italic&subset=latin,cyrillic");
+
+h1 {
+    font-family: "Lobster";
+}
+
+.page-header {
+    margin-top: 7px;
+}
+
+a {
+    color: #000000;
+    font-weight: bold;
+}
+
+.glyphicon-play {
+    color: #e5455f;
+}
+
+body {
+    background: url(/gb/skulls.png);
+}
+
+.bg-white {
+    background: #ffffff;
+}
+
+.timer {
+	width: auto; /*262px;*/
+	margin-top: 6px;
+}
+.timer .title {
+	color: #000;
+	text-align: center;
+	font-style: italic;
+	font-size: 19px;
+}
+.timer .countdownHolder {
+	padding: 33px 16px 0;
+	background: url(/gb/bg-timer.png) no-repeat;
+	height: 95px;
+	/*width: 237px;*/
+        width: auto;
+	font: 30px/1.1 'Georgia';
+	letter-spacing: -3px;
+	margin-top: 11px;
+}
+.position{
+	display: inline-block;
+	height: 1.6em;
+	overflow: hidden;
+	position: relative;
+	width: 0.95em;
+}
+.digit{
+	position: absolute;
+	display: block;
+	width: 28px;
+	height: 40px;
+	background-color: #dee8f1;
+	border-radius: 3px;
+	text-align: center;
+	color: #474747;
+	letter-spacing: -1px;
+}
+.digit.static{
+	box-shadow:1px 1px 1px rgba(4, 4, 4, 0.35);
+	background-image: linear-gradient(bottom,#f2f2f2  50%,#e7e7e7  50%);
+	background-image: -o-linear-gradient(bottom,#f2f2f2  50%,#e7e7e7  50%);
+	background-image: -moz-linear-gradient(bottom,#f2f2f2  50%,#e7e7e7  50%);
+	background-image: -webkit-linear-gradient(bottom,#f2f2f2  50%,#e7e7e7  50%);
+	background-image: -ms-linear-gradient(bottom,#f2f2f2  50%,#e7e7e7  50%);
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.5, #f2f2f2),
+		color-stop(0.5, #e7e7e7)
+	);
+}
+.countDays{ /* display:none !important;*/ }
+.countDiv0{ /* display:none !important;*/ }
+.countHours{}
+.countDiv1{}
+.countMinutes{}
+.countDiv2{ display:none !important;}
+.countSeconds{ display:none !important;}
+.countDiv{
+	display:inline-block;
+	width:16px;
+	height:1.6em;
+	position:relative;
+}
+.countDiv:before,
+.countDiv:after{
+	position:absolute;
+	width:5px;
+	height:5px;
+	background-color:#fff;
+	border-radius:50%;
+	left:50%;
+	margin-left:-3px;
+	top:0.5em;
+	box-shadow:1px 1px 1px rgba(4, 4, 4, 0.5);
+	content:'';
+}
+.countDiv:after{
+	top:0.9em;
+}

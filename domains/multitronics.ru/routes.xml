@@ -55,4 +55,21 @@
             </element>
         </chains>
     </codes>
+    
+    <shop type="Zend_Controller_Router_Route">
+        <route>products</route>
+        <defaults sShopCode="TUNING" />
+        <chains>
+            <index type="Zend_Controller_Router_Route">
+                <route>/</route>
+                <defaults module="shop" controller="shop" action="index" />
+            </index>
+            <category type="Zend_Controller_Router_Route">
+                <route>:sCategoryUrl</route>
+                <defaults module="shop" controller="category" action="index" />
+                <reqs sCategoryUrl="[0-9a-zA-Z-_]+" />
+            </category>
+        </chains>
+    </shop>
+    
 </routes>

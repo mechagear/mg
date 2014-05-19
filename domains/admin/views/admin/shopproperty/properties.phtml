@@ -1,13 +1,13 @@
 <div class="m-b-md">
-    <h3 class="m-b-none">Ед. измерения магазина &laquo;<?php echo $this->oShop->name ?>&raquo;</h3>
+    <h3 class="m-b-none">Характеристики товаров &laquo;<?php echo $this->oShop->name ?>&raquo;</h3>
 </div>
 <section class="panel panel-default">
     <header class="panel-heading">
-      Единицы измерения
+      Характеристики
     </header>
     <div class="row text-sm wrapper">
         <div class="col-sm-5 m-b-xs">
-            <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop, 'iMeasureId' => 0), 'shop-categories-measures-edit');?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i></a>
+            <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop, 'iPropertyId' => 0), 'shop-categories-properties-edit');?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i> Добавить характеристику</a>        
         </div>
         <div class="col-sm-4 m-b-xs"></div>
         <div class="col-sm-3">
@@ -32,22 +32,29 @@
                             <i class="fa fa-sort"></i>
                         </span>
                     </th>
-                    <th>Кратко</th>
+                    <th>Тип</th>
+                    <th>Вид</th>
+                    <th>Ед. изм.</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <?php if ($this->oShopMeasures->count() > 0) { ?>
-                <?php foreach ($this->oShopMeasures->getCurrentItems() as $oMeasure) { ?>
+                <?php if ($this->oShopProperties->count() > 0) { ?>
+                <?php foreach ($this->oShopProperties->getCurrentItems() as $oProperty) { ?>
+                <?
+                $oMeasure = Mg_Shop_Helper_Measure::getMeasure($oProperty->id_measure);
+                ?>
                 <tr>
                     <td>
-                        <input type="checkbox" name="measure_selected[]" value="2">
+                        <input type="checkbox" name="property_selected[]" value="2">
                     </td>
-                    <td><?php echo $oMeasure->id_measure;?></td>
-                    <td><b><?php echo $oMeasure->name_full?></b></td>
+                    <td><?php echo $oProperty->id_property;?></td>
+                    <td><b><?php echo $oProperty->name?></b></td>
+                    <td><?php echo $this->aShopPropertyTypes[$oProperty->type]?></td>
+                    <td><?php echo $this->aShopPropertyViewTypes[$oProperty->view_type];?></td>
                     <td><?php echo $oMeasure->name_short?></td>
                     <td>
-                        <a href="<?php echo $this->url(array('iShopId' => $oMeasure->id_shop, 'iMeasureId' => $oMeasure->id_measure), 'shop-categories-measures-edit');?>" title="Редактировать"><i class="fa fa-edit"></i></a> 
+                        <a href="<?php echo $this->url(array('iShopId' => $this->oShop->id_shop, 'iPropertyId' => $oProperty->id_property), 'shop-categories-properties-edit');?>" title="Редактировать"><i class="fa fa-edit"></i></a> 
                         <a href="#" title="Удалить"><i class="fa fa-trash-o"></i> </a>
                     </td>
                 </tr>
@@ -56,7 +63,7 @@
                 <tr>
                     <td colspan="7">
                         <div class="alert alert-info">
-                            <i class="fa fa-info-circle"></i> <b>Нет ни одной единицы измерения</b>
+                            <i class="fa fa-info-circle"></i> <b>Нет ни одной характеристики</b>
                         </div>
                     </td>
                 </tr>
@@ -69,7 +76,7 @@
             <div class="col-sm-4 hidden-xs"></div>
             <div class="col-sm-4 text-center"></div>
             <div class="col-sm-4 text-right text-center-xs">
-                <?php echo $this->paginationControl($this->oShopMeasures, 'Sliding', 'partials/pagination.phtml');?>
+                <?php echo $this->paginationControl($this->oShopProperties, 'Sliding', 'partials/pagination.phtml');?>
             </div>
         </div>
     </footer>

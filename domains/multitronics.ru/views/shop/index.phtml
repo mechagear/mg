@@ -1,0 +1,7 @@
+<?php if ($this->oCategories->getCurrentItemCount()) { ?>
+<ul>
+<?php foreach ($this->oCategories->getCurrentItems() as $oCategory) { ?>
+    <li><a href="<?=$this->url(array('sCategoryUrl' => $oCategory->url), 'shop-category')?>"><?=$oCategory->name?></a></li>
+<?php } ?>
+</ul>
+<?php } ?>

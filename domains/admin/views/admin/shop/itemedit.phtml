@@ -161,7 +161,7 @@ $(document).ready(function(){
                     <?php } ?>
                 </div>
                 <div class="tab-pane" id="tab-categories">
-                    <?php echo $this->partial('shop/partials/finder.phtml', array('postfix'=>'categoryCross', 'url'=>$this->url(array(), 'shop-ajax-find-category'), 'item_id'=>'id_category', 'item_icon'=>'fa-link', 'params'=>array('id_shop'=>$this->oItem->id_shop)))?>
+                    <?php echo $this->partial('admin/shop/partials/finder.phtml', array('postfix'=>'categoryCross', 'url'=>$this->url(array(), 'shop-ajax-find-category'), 'item_id'=>'id_category', 'item_icon'=>'fa-link', 'params'=>array('id_shop'=>$this->oItem->id_shop)))?>
                     <div class="line line-dashed line-lg pull-in"></div>
                     <div class="table-responsive">
                         <table class="table table-striped b-t b-light text-sm">

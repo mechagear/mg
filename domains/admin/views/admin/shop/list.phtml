@@ -8,17 +8,10 @@
     </header>
     <div class="row text-sm wrapper">
         <div class="col-sm-5 m-b-xs">
-            <a href="<?php echo $this->url(array('iShopId' => 0,), 'shop-edit')?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i></a>        
+            <a href="<?php echo $this->url(array('iShopId' => 0,), 'shop-edit')?>" class="btn btn-sm btn-success" title="Создать"><i class="fa fa-plus-circle"></i> Создать магазин</a>        
         </div>
         <div class="col-sm-4 m-b-xs"></div>
-        <div class="col-sm-3">
-            <div class="input-group">
-                <input type="text" class="input-sm form-control" placeholder="Поиск">
-                <span class="input-group-btn">
-                    <button class="btn btn-sm btn-default" type="button">Искать</button>
-                </span>
-            </div>
-        </div>
+        <div class="col-sm-3"></div>
     </div>
     <div class="table-responsive">
         <table class="table table-striped b-t b-light text-sm">
@@ -46,8 +39,6 @@
                     <td><a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop, 'iCategoryId'=>0, 'iPage'=>1,), 'shop-categories-list');?>"><?php echo $oShop->name?></a></td>
                     <td><?php echo $oShop->code;?></td>
                     <td>
-                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-properties-list')?>" title="Характеристики"><i class="fa fa-x2 fa-list-alt"></i></a> 
-                        <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-categories-measures-list')?>" title="Ед. измерения"><i class="fa fa-x2 fa-arrows-alt"></i></a> 
                         <a href="<?php echo $this->url(array('iShopId' => $oShop->id_shop,), 'shop-edit')?>" title="Редактировать"><i class="fa fa-x2 fa-edit"></i></a> 
                         <a href="#" title="Удалить"> <i class="fa fa-x2 fa-trash-o"></i> </a> 
                     </td>

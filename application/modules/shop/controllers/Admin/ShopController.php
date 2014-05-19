@@ -9,105 +9,6 @@ class Shop_Admin_ShopController extends Mg_Controller_Admin
     
     protected function setNav($aParams) {
         return;
-        $oNavigation = Zend_Registry::get('Zend_Navigation');
-        $oCurPage = $oNavigation->findBy('route', 'shop-list');
-        if ( !$oCurPage ) {
-            return;
-        }
-        if ( !empty($aParams['shop']) ) {
-            $oPage = new Zend_Navigation_Page_Mvc();
-            $oPage->setLabel($aParams['shop']->name);
-            $oPage->setRoute('shop-categories-list');
-            $oPage->setParams(array(
-                'iShopId' => $aParams['shop']->id_shop,
-                'iCategoryId' => 0,
-            ));
-            $oPage->setActive(true);
-            $oPage->setParent($oCurPage);
-            
-            if ( !empty($aParams['categories']) && is_array($aParams['categories']) ) {
-                foreach ($aParams['categories'] as $oCategory) {
-                    if ( ! $oCategory instanceof Mg_Shop_Model_Category ) {
-                        continue;
-                    }
-                    $oPage->setActive(false);
-                    $oCurPage = $oPage;
-                    $oPage = new Zend_Navigation_Page_Mvc();
-                    $oPage->setLabel($oCategory->name);
-                    $oPage->setRoute('shop-categories-list');
-                    $oPage->setParams(array(
-                        'iShopId' => $oCategory->id_shop,
-                        'iCategoryId' => $oCategory->id_category,
-                    ));
-                    $oPage->setActive(true);
-                    $oPage->setParent($oCurPage);
-                }
-            }
-            
-            if ( !empty($aParams['category']) && $aParams['category']->id_category > 0 ) {
-                $oPage->setActive(false);
-                $oCurPage = $oPage;
-                $oPage = new Zend_Navigation_Page_Mvc();
-                $oPage->setLabel($aParams['category']->name);
-                $oPage->setRoute('shop-categories-list');
-                $oPage->setParams(array(
-                    'iShopId' => $aParams['shop']->id_shop,
-                    'iCategoryId' => $aParams['category']->id_category,
-                ));
-                $oPage->setActive(true);
-                $oPage->setParent($oCurPage);
-            }
-            
-            if ( !empty($aParams['items']) ) {
-                $oPage->setActive(false);
-                $oCurPage = $oPage;
-                $oPage = new Zend_Navigation_Page_Mvc();
-                $oPage->setLabel('Товары');
-                $oPage->setRoute('shop-categories-items-list');
-                $oPage->setParams(array(
-                    'iShopId' => $aParams['shop']->id_shop,
-                    'iCategoryId' => $aParams['category']->id_category,
-                ));
-                $oPage->setActive(true);
-                $oPage->setParent($oCurPage);
-            }
-            
-            if ( !empty($aParams['measures']) ) {
-                $oPage->setActive(false);
-                $oCurPage = $oPage;
-                $oPage = new Zend_Navigation_Page_Mvc();
-                $oPage->setLabel('Единицы измерения');
-                $oPage->setRoute('shop-categories-measures-list');
-                $oPage->setParams(array(
-                    'iShopId' => $aParams['shop']->id_shop,
-                ));
-                $oPage->setActive(true);
-                $oPage->setParent($oCurPage);
-            }
-            
-            if ( !empty($aParams['properties']) ) {
-                $oPage->setActive(false);
-                $oCurPage = $oPage;
-                $oPage = new Zend_Navigation_Page_Mvc();
-                $oPage->setLabel('Характеристики');
-                $oPage->setRoute('shop-categories-properties-list');
-                $oPage->setParams(array(
-                    'iShopId' => $aParams['shop']->id_shop,
-                ));
-                $oPage->setActive(true);
-                $oPage->setParent($oCurPage);
-            }
-            
-            if ( !empty($aParams['edit']) ) {
-                $oPage->setActive(false);
-                $oCurPage = $oPage;
-                $oPage = new Zend_Navigation_Page_Uri();
-                $oPage->setLabel('Редактор');
-                $oPage->setActive(true);
-                $oPage->setParent($oCurPage);
-            }
-        }
-        
     }
     
     /**
@@ -118,6 +19,10 @@ class Shop_Admin_ShopController extends Mg_Controller_Admin
         $oShops = $oShopMapper->getList(null, array('name ASC'), 0, 0);
         
         $this->view->oShops = $oShops;
+        
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs(array(
+            array('is_mvc' => true, 'route' => 'shop-list', 'label' => 'Магазины', 'params' => array()),
+        ));
     }
     /**
      * Shop edit
@@ -190,7 +95,7 @@ class Shop_Admin_ShopController extends Mg_Controller_Admin
         $aColumns = array();
         $oSelect = new Zend_Db_Select($oCategoryMapper->getDbTable()->getAdapter());
         $oSelect->from($oCategoryMapper->getDbTable()->getTable());
-        $oSelect = $oSelect->where('id_shop = ' . $iShopId . ' AND id_parent ' . (($iCategoryId > 0) ? '= ?' : 'IS NULL'), $iCategoryId);
+        $oSelect = $oSelect->where('id_shop = ' . $iShopId . ' AND id_parent = ?', $iCategoryId);
         if ( !empty($aBndCategories) ) {
             $oSelect = $oSelect->orWhere('id_category IN (' . implode(',', $aBndCategories) . ')');
             $aColumns[] = '(CASE WHEN `id_category` IN (' . implode(',', $aBndCategories) . ') THEN 1 ELSE 0 END) AS cross_flag';
@@ -199,13 +104,25 @@ class Shop_Admin_ShopController extends Mg_Controller_Admin
         $oCategories = $oCategoryMapper->getListExt($oSelect, $iPage, 20);
         // ---
         
-        $this->view->aParentCategories = array_reverse(Mg_Shop_Helper_Category::getShopParentCategories($oCategory->id_parent));
+        $aParentCategories = array_reverse(Mg_Shop_Helper_Category::getShopParentCategories($oCategory->id_parent));
+        $this->view->aParentCategories = $aParentCategories;
         $this->view->aStatuses = Mg_Common_Helper_Status::getStatusesAsArray($oCategoryMapper->getDbTable()->getTable());
         $this->view->oShop = $oShop;
         $this->view->oCategory = $oCategory;
         $this->view->oCategories = $oCategories;
         
-        $this->setNav(array('shop' => $oShop, 'categories' => $this->view->aParentCategories, 'category'=>$oCategory,));
+        // Breadcrumbs 
+        $aBreadcrumbs = array(
+            array('is_mvc' => true, 'route' => 'shop-list', 'label' => 'Магазины', 'params' => array()),
+            array('is_mvc' => true, 'route' => 'shop-categories-list', 'label' => $oShop->name, 'params' => array('iShopId' => $oShop->id_shop)),
+        );
+        foreach ($aParentCategories as $oParentCategory) {
+            $aBreadcrumbs[] = array('is_mvc' => true, 'route' => 'shop-categories-list', 'label' => $oParentCategory->name, 'params' => array('iShopId' => $oShop->id_shop, 'iCategoryId' => $oParentCategory->id_category));
+        }
+        if ( $oCategory->id_category > 0 ) {
+            $aBreadcrumbs[] = array('is_mvc' => true, 'route' => 'shop-categories-list', 'label' => $oCategory->name, 'params' => array('iShopId' => $oShop->id_shop, 'iCategoryId' => $oCategory->id_category));
+        }
+        Mg_Common_Helper_Breadcrumbs::setBreadcrumbs($aBreadcrumbs);
     }
     /**
      * 
@@ -522,147 +439,6 @@ class Shop_Admin_ShopController extends Mg_Controller_Admin
         
         $this->setNav(array('shop' => $oShop, 'categories' =>$this->view->aParentCategories, 'category' => $oCategory, 'items' => true, 'edit' => true,));
     }
-    
-    /**
-     * Properties list
-     */
-    public function propertiesAction() {
-        $iShopId = intval($this->_getParam('iShopId', 0));
-        $iPage = $this->_getParam('iPage', 1);
-        
-        $oShop = Mg_Shop_Helper_Shop::getShop($iShopId);
-        
-        $oShopPropertyMapper = new Mg_Shop_Model_Mapper_ShopProperty();
-        $aWhere = array(
-            array('id_shop = ?', $iShopId),
-        );
-        $oShopProperties = $oShopPropertyMapper->getList($aWhere, null, $iPage, 20);
-        $aShopPropertyTypes = Mg_Shop_Helper_ShopProperty::getPropertyTypes();
-        $aShopPropertyViewTypes = Mg_Shop_Helper_ShopProperty::getPropertyViewTypes();
-        
-        $this->view->aShopPropertyTypes = $aShopPropertyTypes;
-        $this->view->aShopPropertyViewTypes = $aShopPropertyViewTypes;
-        $this->view->oShopProperties = $oShopProperties;
-        $this->view->oShop = $oShop;
-        
-        $this->setNav(array('shop' => $oShop, 'properties' => true,));
-    }
-    
-    public function propertyeditAction() {
-        $iShopId = $this->_getParam('iShopId', 0);
-        $iPropertyId = intval($this->_getParam('iPropertyId', 0));
-        
-        $oShop = Mg_Shop_Helper_Shop::getShop($iShopId);
-        if ( $iPropertyId > 0 ) {
-            $oProperty = Mg_Shop_Helper_ShopProperty::getProperty($iPropertyId);
-        } else {
-            $oProperty = new Mg_Shop_Model_ShopProperty();
-        }
-        
-        $aShopPropertyTypes = Mg_Shop_Helper_ShopProperty::getPropertyTypes();
-        $aShopPropertyViewTypes = Mg_Shop_Helper_ShopProperty::getPropertyViewTypes();
-        $oMeasures = Mg_Shop_Helper_Measure::getMeasureByShop($iShopId);
-        
-        if ( $this->getRequest()->isPost() ) {
-            $aParams = $this->getRequest()->getPost();
-            
-            if ( !empty($aParams['propertyType']) ) {
-                $oProperty->type = $aParams['propertyType'];
-            }
-            if ( !empty($aParams['propertyViewType']) ) {
-                $oProperty->view_type = $aParams['propertyViewType'];
-            }
-            if ( !empty($aParams['propertyName']) ) {
-                $oProperty->name = $aParams['propertyName'];
-            }
-            if ( !empty($aParams['propertyType']) ) {
-                $oProperty->id_measure = $aParams['propertyMeasure'];
-            }
-            
-            if ( $oProperty->id_property <= 0 ) {
-                $oProperty->id_shop = $oShop->id_shop;
-            }
-            
-            $oPropertyMapper = new Mg_Shop_Model_Mapper_ShopProperty();
-            
-            if ( $iId = $oPropertyMapper->save($oProperty) ) {
-                $this->redirect($this->view->url(array('iShopId'=>$oShop->id_shop, 'iPage' => 1,),'shop-categories-properties-list'));
-                exit;
-            }
-            
-        }
-        
-        $this->view->oMeasures = $oMeasures;
-        $this->view->aShopPropertyTypes = $aShopPropertyTypes;
-        $this->view->aShopPropertyViewTypes = $aShopPropertyViewTypes;
-        $this->view->oShopProperty = $oProperty;
-        
-    }
-    
-    /**
-     * Measures list
-     */
-    public function measuresAction() {
-        $iShopId = intval($this->_getParam('iShopId', 0));
-        $iPage = $this->_getParam('iPage', 1);
-        
-        $oShop = Mg_Shop_Helper_Shop::getShop($iShopId);
-        
-        
-        $oShopMeasureMapper = new Mg_Shop_Model_Mapper_Measure();
-        $aWhere = array(
-            array('id_shop = ?', $iShopId),
-        );
-        $oShopMeasures = $oShopMeasureMapper->getList($aWhere, null, $iPage, 20);
-        
-        $this->view->oShopMeasures = $oShopMeasures;
-        $this->view->oShop = $oShop;
-        
-        $this->setNav(array('shop' => $oShop, 'measures' => true,));
-    }
-    
-    public function measureeditAction() {
-        $iShopId = intval($this->_getParam('iShopId', 0));
-        $iMeasureId = intval($this->_getParam('iMeasureId', 0));
-        
-        $oShop = Mg_Shop_Helper_Shop::getShop($iShopId);
-        if ( $iMeasureId > 0 ) {
-            $oMeasure = Mg_Shop_Helper_Measure::getMeasure($iMeasureId);
-        } else {
-            $oMeasure = new Mg_Shop_Model_Measure();
-        }
-        
-        if ( $this->getRequest()->isPost() ) {
-            $aParams = $this->getRequest()->getPost();
-            
-            if ( !empty($aParams['measureNameFull']) ) {
-                $oMeasure->name_full = $aParams['measureNameFull'];
-            }
-            if ( !empty($aParams['measureNameShort']) ) {
-                $oMeasure->name_short = $aParams['measureNameShort'];
-            }
-            if ( !empty($aParams['measureForms']) ) {
-                $oMeasure->forms = array_slice($aParams['measureForms'], 0, 3);
-            }
-            
-            if ( $oMeasure->id_measure <= 0 ) {
-                $oMeasure->id_shop = $oShop->id_shop;
-            }
-            
-            $oMeasureMapper = new Mg_Shop_Model_Mapper_Measure();
-            
-            if ( $iId = $oMeasureMapper->save($oMeasure) ) {
-                $this->redirect($this->view->url(array('iShopId'=>$oShop->id_shop, 'iPage' => 1,),'shop-categories-measures-list'));
-                exit;
-            }
-        }
-        
-        $this->view->oShop = $oShop;
-        $this->view->oMeasure = $oMeasure;
-        
-        $this->setNav(array('shop' => $oShop, 'measures' => true, 'measure' => $oMeasure, 'edit' => true,));
-    }
-    
     
     // ------------------ AJAX ----------------
     public function ajaxcategoryfindAction() {

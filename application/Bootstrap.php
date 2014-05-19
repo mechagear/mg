@@ -138,12 +138,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     protected function _initSession() {
-        $sMGSid = $_COOKIE['mgsid'];
+        $sMGSid = (!empty($_COOKIE['mgsid'])) ? $_COOKIE['mgsid'] : '';
         // Create session object (new or existing)
         $oSession = new Mg_Model_Session();
-        $oAuthSession = new Zend_Session_Namespace('auth');
         // TODO: Save Session obj in Zend_Session_Namespace
         if ( !empty($sMGSid) ) {
+            Zend_Session::setId($sMGSid);
+            $oAuthSession = new Zend_Session_Namespace('auth');
             if (!$oAuthSession->session) {
                 $oSession = Mg_Common_Helper_Session::getSessionByKey($sMGSid);
                 $oAuthSession->session = $oSession;
@@ -155,7 +156,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // TODO: Make some session validations here
         // Create new session if sess_key is empty
         if ($oSession->id_session == 0) {
-            Zend_Session::start();
+            if (!Zend_Session::isStarted()) {
+                Zend_Session::start();
+            }
             $oSessionMapper = new Mg_Model_Mapper_Session();
             $oSession->sess_key = Zend_Session::getId();
             $oSession->id_user = 0;
@@ -163,8 +166,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $iSessionId = $oSessionMapper->save($oSession);
             if ( $iSessionId > 0 ) {
                 // TODO: Create something more secure
-                setcookie('mgsid', $oSession->key, time()+60*60*24*14, '/', $_SERVER['HTTP_HOST'], false, true);
-                $sMGSid = $oSession->key;
+                setcookie('mgsid', $oSession->sess_key, time()+60*60*24*14, '/', $_SERVER['HTTP_HOST'], false, true);
+                $sMGSid = $oSession->sess_key;
+                $oAuthSession = new Zend_Session_Namespace('auth');
                 $oAuthSession->session = $oSession;
             }
         }
@@ -172,6 +176,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if ($oSession->id_session > 0 && !Zend_Session::isStarted()) {
             Zend_Session::setId($oSession->sess_key);
             Zend_Session::start();
+            die($oSession->sess_key);
         }
         
         // Is person authentified?

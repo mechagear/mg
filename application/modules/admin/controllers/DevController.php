@@ -1,20 +1,44 @@
 <?php
 
-class Admin_DevController extends Mg_Controller_Abstract
+class Admin_DevController extends Mg_Controller_Admin
 {
-    protected $oConfig;
     
     public function init() {
         parent::init();
-        if (!$this->oAcl->isAllowed($this->oUser, 'cp', 'view') && !in_array($this->getRequest()->getActionName(), array('auth', 'unauth'))) {
-            $this->redirect($this->view->url(array(),'auth'), array('exit' => true,));
-            throw new Mg_Common_Exception_AccessDenied('No access');
-            exit;
+        $this->_helper->AjaxContext()->addActionContext('ajaxcategoryfind', 'json')->initContext('json');
+    }
+    
+    public function yaAction() {
+        
+        $sBaseUrl = 'http://geocode-maps.yandex.ru/1.x/';
+        $aParams = array(
+            'geocode' => '',
+            'format' => 'json',
+            'results' => 10,
+            'skip' => 0,
+            'lang' => 'ru_RU',
+            'key' => 'ADqiUVMBAAAAbnanRQMATaGBVIcIAHwkqpVppSsdM4JIy9wAAAAAAAAAAAAGtOUrl8H0v7w-3qPn9Qs2EV7qEQ==',
+            'll' => '37.654750,55.633798',
+            'spn' => '0.067806,0.019106',
+            'rspn' => 1,
+        );
+        
+        $sResult = '';
+        if ($this->getRequest()->isPost()) {
+            $aPost = $this->getRequest()->getPost();
+            //$aParams['geocode'] = 'город Москва ' . $aPost['geocode'];
+            $aParams['geocode'] = $aPost['geocode'];
+            
+            $sUrl = $sBaseUrl . '?';
+            foreach ($aParams as $sKey => $sParam) {
+                $sUrl .= $sKey . '=' . urlencode($sParam) . '&';
+            }
+            $sResult = json_decode(file_get_contents($sUrl), true);
+            
         }
         
-        $this->_helper->AjaxContext()->addActionContext('ajaxcategoryfind', 'json')->initContext('json');
-        
-        $this->oConfig = Zend_Registry::get('config');
+        $this->view->aParams = $aParams;
+        $this->view->sResult = $sResult;
     }
     
     public function indexAction() {
