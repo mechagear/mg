@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-03-19T15:05:58.274Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15" etag="Ybblp_76pHix83UppMMY" version="17.1.3" type="github">
+<mxfile host="app.diagrams.net" modified="2022-03-19T15:33:49.949Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15" etag="x3FqX0qouuS6QGNWqga6" version="17.1.3" type="github">
   <diagram name="Log parser" id="b5b7bab2-c9e2-2cf4-8b2a-24fd1a2a6d21">
     <mxGraphModel dx="1389" dy="739" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -118,19 +118,13 @@
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cvZBhcmpL4nV925hNqEm-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="cvZBhcmpL4nV925hNqEm-48" target="cvZBhcmpL4nV925hNqEm-1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="cvZBhcmpL4nV925hNqEm-48" value="Stream" style="shape=requiredInterface;html=1;verticalLabelPosition=bottom;sketch=0;rotation=90;" vertex="1" parent="1">
-          <mxGeometry x="385" y="120" width="10" height="20" as="geometry" />
-        </mxCell>
         <mxCell id="cvZBhcmpL4nV925hNqEm-51" value="Argv" style="shape=requiredInterface;html=1;verticalLabelPosition=bottom;sketch=0;rotation=90;" vertex="1" parent="1">
           <mxGeometry x="115" y="120" width="10" height="20" as="geometry" />
         </mxCell>
         <mxCell id="cvZBhcmpL4nV925hNqEm-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="cvZBhcmpL4nV925hNqEm-53" target="cvZBhcmpL4nV925hNqEm-33">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cvZBhcmpL4nV925hNqEm-53" value="File path" style="shape=providedRequiredInterface;html=1;verticalLabelPosition=bottom;sketch=0;" vertex="1" parent="1">
+        <mxCell id="cvZBhcmpL4nV925hNqEm-53" value="Stream" style="shape=providedRequiredInterface;html=1;verticalLabelPosition=bottom;sketch=0;" vertex="1" parent="1">
           <mxGeometry x="250" y="225" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="cvZBhcmpL4nV925hNqEm-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="cvZBhcmpL4nV925hNqEm-56" target="cvZBhcmpL4nV925hNqEm-3">
